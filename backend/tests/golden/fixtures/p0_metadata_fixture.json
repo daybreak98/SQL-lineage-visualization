@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0",
+  "metadata_version": "p0-fixture-v1",
+  "case_sensitive": false,
+  "default_catalog": "default",
+  "default_schema": "default",
+  "source_name": "golden_case_fixture",
+  "tables": [
+    {
+      "catalog": "default",
+      "schema": "default",
+      "name": "order_table",
+      "comment": "订单事实表",
+      "table_type": "table",
+      "columns": [
+        {
+          "name": "order_no",
+          "data_type": "string",
+          "comment": "订单号",
+          "ordinal": 1,
+          "is_partition": false,
+          "nullable": false
+        },
+        {
+          "name": "user_id",
+          "data_type": "string",
+          "comment": "用户 ID",
+          "ordinal": 2,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "order_amt",
+          "data_type": "decimal(18,2)",
+          "comment": "订单金额",
+          "ordinal": 3,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "status",
+          "data_type": "int",
+          "comment": "订单状态",
+          "ordinal": 4,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "dt",
+          "data_type": "string",
+          "comment": "分区日期",
+          "ordinal": 5,
+          "is_partition": true,
+          "nullable": false
+        }
+      ]
+    },
+    {
+      "catalog": "default",
+      "schema": "default",
+      "name": "user_table",
+      "comment": "用户维表",
+      "table_type": "table",
+      "columns": [
+        {
+          "name": "user_id",
+          "data_type": "string",
+          "comment": "用户 ID",
+          "ordinal": 1,
+          "is_partition": false,
+          "nullable": false
+        },
+        {
+          "name": "user_name",
+          "data_type": "string",
+          "comment": "用户名称",
+          "ordinal": 2,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "dt",
+          "data_type": "string",
+          "comment": "分区日期",
+          "ordinal": 3,
+          "is_partition": true,
+          "nullable": false
+        }
+      ]
+    }
+  ]
+}

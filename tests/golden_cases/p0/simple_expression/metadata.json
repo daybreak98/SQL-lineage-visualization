@@ -1,0 +1,28 @@
+{
+  "test_case_id": "GC-P0-006",
+  "test_case_name": "simple_expression",
+  "category": "P0",
+  "description": "简单表达式 - 验证算术表达式的依赖提取 (order_amt * 0.1)",
+  "expected_status": "success",
+  "metadata_version": "p0-fixture-v1",
+  "expected": {
+    "lineage_ir_nodes_contains": [
+      "column:default.default.order_table.order_amt",
+      "expr:scope:root.commission",
+      "output:scope:root.commission"
+    ],
+    "lineage_ir_edges_contains": [
+      {
+        "edge_type": "expression",
+        "source": "column:default.default.order_table.order_amt",
+        "target": "expr:scope:root.commission"
+      },
+      {
+        "edge_type": "alias",
+        "source": "expr:scope:root.commission",
+        "target": "output:scope:root.commission"
+      }
+    ],
+    "diagnostics_error_count": 0
+  }
+}

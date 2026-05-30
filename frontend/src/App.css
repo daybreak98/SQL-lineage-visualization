@@ -1,0 +1,827 @@
+/* ============================================================
+   Workbench Page Layout
+   ============================================================ */
+
+.workbench-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.workbench-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.workbench-editor-pane {
+  display: flex;
+  flex-direction: column;
+  min-width: 240px;
+  border-right: 1px solid var(--color-gray-200);
+  overflow: hidden;
+}
+
+.workbench-canvas-pane {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 300px;
+  overflow: hidden;
+  background: var(--canvas-bg);
+}
+
+.workbench-canvas-area {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ============================================================
+   TopBar — §15.1 / §16
+   ============================================================ */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 44px;
+  padding: 0 12px;
+  background: #fff;
+  border-bottom: 1px solid var(--color-gray-200);
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.topbar-brand {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+
+.topbar-center {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.topbar-dialect {
+  padding: 4px 8px;
+  border: 1px solid var(--color-gray-200);
+  border-radius: 4px;
+  font-size: 12px;
+  background: #fff;
+  color: var(--color-gray-700);
+  cursor: pointer;
+}
+
+.topbar-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 12px;
+  border: 1px solid var(--color-gray-200);
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.topbar-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* §16.2: 主蓝实心 */
+.topbar-btn--primary {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+  font-weight: 600;
+}
+
+.topbar-btn--primary:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+/* 次主/辅助按钮 */
+.topbar-btn--secondary {
+  background: #fff;
+  color: var(--color-gray-700);
+}
+
+.topbar-btn--secondary:hover:not(:disabled) {
+  background: var(--color-gray-50);
+  border-color: var(--color-gray-300);
+}
+
+/* §16.1 analyzing 状态 loading */
+.topbar-btn--loading {
+  position: relative;
+  padding-left: 28px;
+}
+
+.topbar-spinner {
+  position: absolute;
+  left: 8px;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: topbar-spin 0.6s linear infinite;
+}
+
+@keyframes topbar-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* §16.1 dirty 状态 stale 提示 */
+.topbar-btn--stale {
+  position: relative;
+}
+
+.topbar-stale-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-warning);
+  margin-left: 4px;
+}
+
+.topbar-more {
+  position: relative;
+}
+
+/* ============================================================
+   SqlEditor
+   ============================================================ */
+
+.sql-editor {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+.sql-editor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 28px;
+  padding: 0 10px;
+  background: var(--color-gray-50);
+  border-bottom: 1px solid var(--color-gray-200);
+  flex-shrink: 0;
+}
+
+.sql-editor-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sql-editor-dialect-badge {
+  font-size: 10px;
+  padding: 1px 6px;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  border-radius: 3px;
+  font-weight: 500;
+}
+
+.sql-editor-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--color-gray-500);
+  font-size: 13px;
+}
+
+/* ============================================================
+   Splitter — 8px 大热区
+   ============================================================ */
+
+.splitter {
+  position: relative;
+  flex-shrink: 0;
+  background: transparent;
+  z-index: 10;
+}
+
+.splitter--horizontal {
+  cursor: col-resize;
+}
+
+.splitter--vertical {
+  cursor: row-resize;
+}
+
+.splitter:hover,
+.splitter:active {
+  background: var(--color-primary-light);
+}
+
+.splitter-handle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.splitter--horizontal .splitter-handle {
+  width: 2px;
+  height: 24px;
+  background: var(--color-gray-300);
+  border-radius: 1px;
+}
+
+.splitter--vertical .splitter-handle {
+  width: 24px;
+  height: 2px;
+  background: var(--color-gray-300);
+  border-radius: 1px;
+}
+
+.splitter:hover .splitter-handle,
+.splitter:active .splitter-handle {
+  background: var(--color-primary);
+}
+
+/* ============================================================
+   LineageCanvas
+   ============================================================ */
+
+.lineage-canvas {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.lineage-canvas-empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--color-gray-500);
+  font-size: 14px;
+  text-align: center;
+  pointer-events: none;
+}
+
+/* ============================================================
+   CanvasTopSearchBar — §14 40px 单行
+   ============================================================ */
+
+.canvas-top-search-bar {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 8px;
+  background: #fff;
+  border-bottom: 1px solid var(--color-gray-200);
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.canvas-search-input-wrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.canvas-search-icon {
+  position: absolute;
+  left: 8px;
+  font-size: 13px;
+  pointer-events: none;
+}
+
+.canvas-search-input {
+  width: 100%;
+  height: 28px;
+  padding: 0 28px 0 26px;
+  border: 1px solid var(--color-gray-200);
+  border-radius: 4px;
+  font-size: 12px;
+  background: var(--color-gray-50);
+  color: var(--color-gray-900);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.canvas-search-input:focus {
+  border-color: var(--color-primary);
+  background: #fff;
+}
+
+.canvas-search-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* §14.4: Search suggestions popover */
+.canvas-search-popover {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 2px;
+  background: #fff;
+  border: 1px solid var(--color-gray-200);
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.canvas-search-suggestion {
+  display: block;
+  width: 100%;
+  padding: 6px 10px;
+  border: none;
+  background: transparent;
+  text-align: left;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.canvas-search-suggestion:hover {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+/* §14.3 Output Capsule */
+.canvas-output-capsule {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: var(--color-gray-50);
+  border: 1px solid var(--color-gray-200);
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.canvas-capsule-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-gray-300);
+  flex-shrink: 0;
+}
+
+.canvas-output-capsule[data-status='chosen'] .canvas-capsule-dot {
+  background: var(--color-success);
+}
+
+.canvas-output-capsule[data-status='stale'] .canvas-capsule-dot {
+  background: var(--color-warning);
+}
+
+.canvas-output-capsule[data-status='partial'] .canvas-capsule-dot {
+  background: var(--color-warning);
+}
+
+.canvas-output-capsule[data-status='low_confidence'] .canvas-capsule-dot {
+  background: var(--color-warning);
+}
+
+.canvas-capsule-text {
+  color: var(--color-gray-700);
+}
+
+/* ============================================================
+   CanvasToolbar — §15.2 36px
+   ============================================================ */
+
+.canvas-toolbar {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 4px;
+  background: #fff;
+  border-bottom: 1px solid var(--color-gray-200);
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.canvas-toolbar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  font-size: 14px;
+  cursor: pointer;
+  color: var(--color-gray-500);
+  transition: background 0.15s, color 0.15s;
+}
+
+.canvas-toolbar-btn:hover:not(:disabled) {
+  background: var(--color-gray-100);
+  color: var(--color-gray-700);
+}
+
+.canvas-toolbar-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   CanvasBottomDetailPanel — §18 compact 三行结构
+   §17.1: collapsed 36px, compact 84-96px
+   ============================================================ */
+
+.canvas-detail-panel {
+  border-top: 1px solid var(--color-gray-200);
+  background: #fff;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.canvas-detail-panel--collapsed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  padding: 0 12px;
+}
+
+.canvas-detail-collapsed-text {
+  font-size: 11px;
+  color: var(--color-gray-500);
+}
+
+.canvas-detail-panel--compact {
+  max-height: 96px;
+  overflow-y: auto;
+}
+
+.canvas-detail-row {
+  display: flex;
+  align-items: center;
+  padding: 6px 12px;
+  gap: 8px;
+  font-size: 12px;
+  border-bottom: 1px solid var(--color-gray-100);
+}
+
+.canvas-detail-row:last-child {
+  border-bottom: none;
+}
+
+.canvas-detail-row--header {
+  font-weight: 600;
+  background: var(--color-gray-50);
+}
+
+.canvas-detail-entity {
+  color: var(--color-gray-900);
+  font-weight: 600;
+}
+
+.canvas-detail-type {
+  color: var(--color-gray-500);
+  font-size: 11px;
+  padding: 1px 6px;
+  background: var(--color-gray-100);
+  border-radius: 3px;
+}
+
+.canvas-detail-confidence {
+  font-size: 11px;
+  margin-left: auto;
+}
+
+.canvas-detail-confidence.trusted {
+  color: var(--color-success);
+}
+
+.canvas-detail-confidence.stale {
+  color: var(--color-warning);
+}
+
+.canvas-detail-mapping-text,
+.canvas-detail-summary-text {
+  color: var(--color-gray-500);
+}
+
+.canvas-detail-row--actions {
+  gap: 4px;
+}
+
+.canvas-detail-action {
+  padding: 3px 8px;
+  border: 1px solid var(--color-gray-200);
+  border-radius: 3px;
+  background: #fff;
+  font-size: 11px;
+  cursor: pointer;
+  color: var(--color-primary);
+  transition: background 0.15s;
+}
+
+.canvas-detail-action:hover {
+  background: var(--color-primary-light);
+}
+
+.canvas-detail-close {
+  padding: 3px 8px;
+  border: 1px solid var(--color-gray-200);
+  border-radius: 3px;
+  background: #fff;
+  font-size: 11px;
+  cursor: pointer;
+  color: var(--color-gray-500);
+}
+
+/* ============================================================
+   BottomStatusStrip
+   ============================================================ */
+
+.bottom-status-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 24px;
+  padding: 0 12px;
+  background: var(--color-gray-900);
+  color: #fff;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.status-strip-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status-strip-item {
+  opacity: 0.8;
+}
+
+.status-strip-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-strip-stale {
+  color: var(--color-warning);
+  font-weight: 600;
+}
+
+.status-strip-dirty {
+  color: var(--color-danger);
+  font-weight: 600;
+}
+
+.status-strip-partial {
+  color: var(--color-warning);
+}
+
+/* ============================================================
+   §10 Node Visual Taxonomy — .lineage-node
+   §12 CSS/data-state 约束
+   ============================================================ */
+
+.lineage-node {
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  background: #fff;
+  min-width: 124px;
+  max-width: 184px;
+  position: relative;
+  /* §12: 禁止 box-shadow / filter / blur / 渐变动画 */
+}
+
+.lineage-node-body {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.lineage-node-label {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lineage-node-subtitle {
+  font-size: 10px;
+  color: var(--color-gray-500);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lineage-node-badge {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 4px;
+  border-radius: 2px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.lineage-node-count {
+  font-size: 10px;
+  color: var(--color-gray-500);
+}
+
+/* Handle */
+.lineage-handle {
+  width: 8px !important;
+  height: 8px !important;
+  border: 2px solid var(--color-gray-300) !important;
+  background: #fff !important;
+}
+
+/* ---- §10.2 Node 视觉总表 by data-node-type ---- */
+
+/* Output: 主蓝2px实线 + 很浅蓝背景 + 主蓝条 + OUT badge */
+.lineage-node[data-node-type='output_group'],
+.lineage-node[data-node-type='output_field'] {
+  border: 2px solid var(--color-output);
+  background: #eff6ff;
+  border-left: 4px solid var(--color-output);
+}
+
+.lineage-node[data-node-type='output_group'] .lineage-node-badge,
+.lineage-node[data-node-type='output_field'] .lineage-node-badge {
+  background: var(--color-output);
+  color: #fff;
+}
+
+/* Subquery: 蓝紫虚线/双层边框 + 浅紫 + 紫色条 + SUBQ badge */
+.lineage-node[data-node-type='subquery'] {
+  border: 2px dashed var(--color-subquery);
+  background: #f5f3ff;
+  border-left: 4px solid var(--color-subquery);
+}
+
+.lineage-node[data-node-type='subquery'] .lineage-node-badge {
+  background: var(--color-subquery);
+  color: #fff;
+}
+
+/* CTE: 天蓝实线 + 浅青 + 青蓝条 + CTE badge */
+.lineage-node[data-node-type='cte'] {
+  border: 2px solid var(--color-cte);
+  background: #f0f9ff;
+  border-left: 4px solid var(--color-cte);
+}
+
+.lineage-node[data-node-type='cte'] .lineage-node-badge {
+  background: var(--color-cte);
+  color: #fff;
+}
+
+/* Table: 灰蓝细实线 + 白/极浅灰 + 灰蓝条 */
+.lineage-node[data-node-type='table'] {
+  border: 1.5px solid var(--color-table);
+  background: #f8fafc;
+  border-left: 3px solid var(--color-table);
+}
+
+/* Expression: 紫色细边 + 很浅紫 + 紫色细条 + EXPR badge */
+.lineage-node[data-node-type='expression_group'] {
+  border: 1.5px solid var(--color-expression);
+  background: #faf5ff;
+  border-left: 3px solid var(--color-expression);
+}
+
+.lineage-node[data-node-type='expression_group'] .lineage-node-badge {
+  background: var(--color-expression);
+  color: #fff;
+}
+
+/* Unknown: 橙色1.5-2px + 浅橙 + 橙条+warning + ? badge */
+.lineage-node[data-node-type='unknown'] {
+  border: 2px solid var(--color-unknown);
+  background: #fff7ed;
+  border-left: 4px solid var(--color-unknown);
+}
+
+.lineage-node[data-node-type='unknown'] .lineage-node-badge {
+  background: var(--color-unknown);
+  color: #fff;
+}
+
+/* ---- §11 Node State Priority Matrix ---- */
+
+/* §11.1 selected > error > current_path > warning > stale > hover > dimmed > normal */
+
+/* selected */
+.lineage-node[data-selected] {
+  box-shadow: 0 0 0 2px var(--color-primary), 0 0 0 4px rgba(37, 99, 235, 0.15);
+}
+
+/* error: 红边叠加 */
+.lineage-node[data-error] {
+  border-color: var(--color-danger);
+}
+
+.lineage-node[data-error]::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-danger);
+}
+
+/* current_path: 背景轻蓝 + 边框增强 */
+.lineage-node[data-current-path] {
+  background: var(--color-primary-light);
+  border-color: var(--color-primary);
+}
+
+/* warning: 小点 */
+.lineage-node[data-warning]::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-warning);
+  border: 1px solid #fff;
+}
+
+/* stale: 微降透明度 */
+.lineage-node[data-stale] {
+  opacity: 0.7;
+}
+
+/* dimmed: 降透明度，但 selected/current_path 不被覆盖 */
+.lineage-node[data-dimmed]:not([data-selected]):not([data-current-path]) {
+  opacity: 0.45;
+}
+
+/* ---- §13 Edge styles ---- */
+
+.lineage-edge .react-flow__edge-path {
+  stroke: var(--color-gray-300);
+  stroke-width: 1.5px;
+}
+
+.lineage-edge--highlighted .react-flow__edge-path {
+  stroke: var(--color-primary);
+  stroke-width: 2.5px;
+}
+
+.lineage-edge--semantic .react-flow__edge-path {
+  stroke: var(--color-gray-300);
+  stroke-dasharray: 5 3;
+  stroke-width: 1px;
+  opacity: 0.6;
+}
+
+/* ============================================================
+   §17 Canvas Space Budget 自动降级
+   ============================================================ */
+
+/* §17.3 视口高度 < 760px: DetailPanel collapsed 36px */
+@media (max-height: 759px) {
+  .canvas-detail-panel--compact {
+    max-height: 84px;
+  }
+}

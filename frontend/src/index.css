@@ -1,0 +1,42 @@
+:root {
+  --color-primary: #2563eb;
+  --color-primary-light: #dbeafe;
+  --color-danger: #dc2626;
+  --color-warning: #f59e0b;
+  --color-success: #16a34a;
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-500: #6b7280;
+  --color-gray-700: #374151;
+  --color-gray-900: #111827;
+  /* Node taxonomy colors */
+  --color-output: #2563eb;
+  --color-subquery: #7c3aed;
+  --color-cte: #0ea5e9;
+  --color-table: #64748b;
+  --color-expression: #a855f7;
+  --color-unknown: #f97316;
+  --canvas-bg: #fafbfc;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 13px;
+  color: var(--color-gray-900);
+  background: #fff;
+}

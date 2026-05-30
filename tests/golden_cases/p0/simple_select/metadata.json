@@ -1,0 +1,48 @@
+{
+  "test_case_id": "GC-P0-001",
+  "test_case_name": "simple_select",
+  "category": "P0",
+  "description": "单表字段直选 - 验证最基本的字段投影血缘",
+  "expected_status": "success",
+  "metadata_version": "p0-fixture-v1",
+  "expected": {
+    "metadata_context": {
+      "resolved_tables": [
+        {
+          "entity_id": "table:default.default.order_table",
+          "catalog": "default",
+          "schema": "default",
+          "table": "order_table",
+          "alias": null,
+          "columns": ["order_no", "user_id", "order_amt", "status", "dt"]
+        }
+      ],
+      "missing_tables": [],
+      "missing_columns": [],
+      "ambiguous_columns": []
+    },
+    "lineage_ir_nodes_contains": [
+      "table:default.default.order_table",
+      "column:default.default.order_table.order_no",
+      "column:default.default.order_table.user_id",
+      "output:scope:root.order_no",
+      "output:scope:root.user_id"
+    ],
+    "lineage_ir_edges_contains": [
+      {
+        "edge_type": "projection",
+        "source": "column:default.default.order_table.order_no",
+        "target": "output:scope:root.order_no"
+      },
+      {
+        "edge_type": "projection",
+        "source": "column:default.default.order_table.user_id",
+        "target": "output:scope:root.user_id"
+      }
+    ],
+    "summary_table_count": 1,
+    "summary_source_column_count": 2,
+    "summary_output_column_count": 2,
+    "diagnostics_error_count": 0
+  }
+}

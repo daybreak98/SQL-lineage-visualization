@@ -1,0 +1,34 @@
+{
+  "test_case_id": "GC-P0-002",
+  "test_case_name": "single_table_alias",
+  "category": "P0",
+  "description": "字段别名 - 验证 AS 重命名的字段链路",
+  "expected_status": "success",
+  "metadata_version": "p0-fixture-v1",
+  "expected": {
+    "metadata_context": {
+      "resolved_tables": [
+        {
+          "entity_id": "table:default.default.order_table",
+          "catalog": "default",
+          "schema": "default",
+          "table": "order_table",
+          "alias": null,
+          "columns": ["order_no", "user_id", "order_amt", "status", "dt"]
+        }
+      ]
+    },
+    "lineage_ir_nodes_contains": [
+      "column:default.default.order_table.order_no",
+      "output:scope:root.order_id"
+    ],
+    "lineage_ir_edges_contains": [
+      {
+        "edge_type": "alias",
+        "source": "column:default.default.order_table.order_no",
+        "target": "output:scope:root.order_id"
+      }
+    ],
+    "diagnostics_error_count": 0
+  }
+}

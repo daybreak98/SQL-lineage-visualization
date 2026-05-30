@@ -1,0 +1,30 @@
+{
+  "test_case_id": "GC-P0-005",
+  "test_case_name": "ambiguous_column",
+  "category": "P0",
+  "description": "字段歧义 - 验证 JOIN 场景下多表共有字段的歧义检测",
+  "expected_status": "partial",
+  "metadata_version": "p0-fixture-v1",
+  "expected": {
+    "metadata_context": {
+      "ambiguous_columns": [
+        {
+          "column": "user_id",
+          "scope_id": "scope:root",
+          "candidate_columns": [
+            "column:default.default.order_table.user_id",
+            "column:default.default.user_table.user_id"
+          ]
+        }
+      ]
+    },
+    "diagnostics_error_count": 1,
+    "diagnostics_contains": [
+      {
+        "code": "AMBIGUOUS_COLUMN",
+        "level": "error",
+        "message_contains": "user_id"
+      }
+    ]
+  }
+}

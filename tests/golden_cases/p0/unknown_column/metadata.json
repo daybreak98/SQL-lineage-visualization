@@ -1,0 +1,45 @@
+{
+  "test_case_id": "GC-P0-004",
+  "test_case_name": "unknown_column",
+  "category": "P0",
+  "description": "未知字段 - 验证已知表中不存在某字段时产生 UNKNOWN_COLUMN 诊断",
+  "expected_status": "partial",
+  "metadata_version": "p0-fixture-v1",
+  "expected": {
+    "metadata_context": {
+      "missing_columns": [
+        {
+          "column": "missing_col",
+          "scope_id": "scope:root",
+          "candidate_tables": ["table:default.default.order_table"]
+        }
+      ]
+    },
+    "lineage_ir_nodes_contains": [
+      "column:default.default.order_table.order_no",
+      "output:scope:root.order_no",
+      "unknown:scope:root.missing_col",
+      "output:scope:root.missing_col"
+    ],
+    "lineage_ir_edges_contains": [
+      {
+        "edge_type": "projection",
+        "source": "column:default.default.order_table.order_no",
+        "target": "output:scope:root.order_no"
+      },
+      {
+        "edge_type": "unknown",
+        "source": "unknown:scope:root.missing_col",
+        "target": "output:scope:root.missing_col"
+      }
+    ],
+    "diagnostics_error_count": 1,
+    "diagnostics_contains": [
+      {
+        "code": "UNKNOWN_COLUMN",
+        "level": "error",
+        "message_contains": "missing_col"
+      }
+    ]
+  }
+}

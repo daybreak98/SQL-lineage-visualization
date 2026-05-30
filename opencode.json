@@ -1,0 +1,205 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "default_agent": "project-orchestrator",
+  "instructions": [
+    "AGENTS.md",
+    "docs/agent-workflow/*.md"
+  ],
+  "agent": {
+    "project-orchestrator": {
+      "description": "主控 Agent，负责总体调度、任务拆解、调用各子 Agent、合并输出、控制迭代流程",
+      "mode": "primary",
+      "temperature": 0.2,
+      "permission": {
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "list": "allow",
+        "edit": "allow",
+        "bash": {
+          "*": "ask",
+          "git status*": "allow",
+          "git log*": "allow",
+          "git diff*": "allow",
+          "dir*": "allow",
+          "ls*": "allow",
+          "Get-ChildItem*": "allow"
+        },
+        "task": {
+          "*": "allow"
+        },
+        "todowrite": "allow",
+        "question": "allow"
+      },
+      "model": "deepseek/deepseek-v4-pro"
+    },
+    "senior-product-manager": {
+      "description": "负责产品需求、功能定义、用户流程、页面交互、界面信息架构、迭代文档维护",
+      "mode": "subagent",
+      "temperature": 0.3,
+      "permission": {
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "list": "allow",
+        "edit": "allow",
+        "bash": {
+          "*": "ask",
+          "dir*": "allow",
+          "ls*": "allow",
+          "Get-ChildItem*": "allow"
+        },
+        "task": "deny",
+        "todowrite": "allow",
+        "question": "allow"
+      },
+      "model": "deepseek/deepseek-v4-pro"
+    },
+    "senior-architect": {
+      "description": "负责技术架构、模块边界、接口契约、技术方案文档、实现顺序、扩展性与性能风险",
+      "mode": "subagent",
+      "temperature": 0.2,
+      "permission": {
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "list": "allow",
+        "edit": "allow",
+        "bash": {
+          "*": "ask",
+          "dir*": "allow",
+          "ls*": "allow",
+          "Get-ChildItem*": "allow"
+        },
+        "task": "deny",
+        "todowrite": "allow",
+        "question": "allow"
+      },
+      "model": "deepseek/deepseek-v4-pro"
+    },
+    "senior-frontend-developer": {
+      "description": "负责前端页面功能实现、前端与后端 API 联调、状态管理、组件拆分",
+      "mode": "subagent",
+      "temperature": 0.3,
+      "permission": {
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "list": "allow",
+        "edit": "allow",
+        "bash": {
+          "*": "ask",
+          "npm run dev*": "allow",
+          "npm run build*": "allow",
+          "npm run test*": "allow",
+          "npm run lint*": "allow",
+          "yarn dev*": "allow",
+          "yarn build*": "allow",
+          "yarn test*": "allow",
+          "pnpm dev*": "allow",
+          "pnpm build*": "allow",
+          "pnpm test*": "allow",
+          "dir*": "allow",
+          "ls*": "allow"
+        },
+        "task": "deny",
+        "todowrite": "allow",
+        "question": "allow"
+      },
+      "model": "deepseek/deepseek-v4-pro"
+    },
+    "senior-ui-designer": {
+      "description": "负责前端页面布局美化、视觉层级、用户注意力引导、UI/UX 审阅",
+      "mode": "subagent",
+      "temperature": 0.4,
+      "permission": {
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "list": "allow",
+        "edit": "allow",
+        "bash": {
+          "*": "ask",
+          "dir*": "allow",
+          "ls*": "allow"
+        },
+        "task": "deny",
+        "todowrite": "allow",
+        "question": "allow"
+      },
+      "model": "deepseek/deepseek-v4-pro"
+    },
+    "senior-backend-developer": {
+      "description": "项目核心开发主力，负责后端核心功能点实现、API、服务层、领域逻辑",
+      "mode": "subagent",
+      "temperature": 0.2,
+      "permission": {
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "list": "allow",
+        "edit": "allow",
+        "bash": {
+          "*": "ask",
+          "python*": "allow",
+          "pytest*": "allow",
+          "dir*": "allow",
+          "ls*": "allow"
+        },
+        "task": "deny",
+        "todowrite": "allow",
+        "question": "allow"
+      },
+      "model": "deepseek/deepseek-v4-pro"
+    },
+    "senior-data-developer": {
+      "description": "负责筛选和加工测试用例、构造 SQL case、业务可用性测试、使用体验反馈",
+      "mode": "subagent",
+      "temperature": 0.3,
+      "permission": {
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "list": "allow",
+        "edit": "allow",
+        "bash": {
+          "*": "ask",
+          "dir*": "allow",
+          "ls*": "allow",
+          "Get-ChildItem*": "allow"
+        },
+        "task": "deny",
+        "todowrite": "allow",
+        "question": "allow"
+      },
+      "model": "deepseek/deepseek-v4-pro"
+    },
+    "senior-test-engineer": {
+      "description": "负责功能测试、回归测试、接口测试、边界测试，确保测试 case 100% 通过",
+      "mode": "subagent",
+      "temperature": 0.2,
+      "permission": {
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "list": "allow",
+        "edit": "allow",
+        "bash": {
+          "*": "ask",
+          "pytest*": "allow",
+          "npm test*": "allow",
+          "npm run test*": "allow",
+          "yarn test*": "allow",
+          "pnpm test*": "allow",
+          "python -m pytest*": "allow",
+          "dir*": "allow",
+          "ls*": "allow"
+        },
+        "task": "deny",
+        "todowrite": "allow",
+        "question": "allow"
+      },
+      "model": "deepseek/deepseek-v4-pro"
+    }
+  }
+}

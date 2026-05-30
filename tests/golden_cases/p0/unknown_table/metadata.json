@@ -1,0 +1,31 @@
+{
+  "test_case_id": "GC-P0-003",
+  "test_case_name": "unknown_table",
+  "category": "P0",
+  "description": "未知表 - 验证表名在元数据中缺失时产生 UNKNOWN_TABLE 诊断",
+  "expected_status": "failed",
+  "metadata_version": "p0-fixture-v1",
+  "expected": {
+    "metadata_context": {
+      "resolved_tables": [],
+      "missing_tables": [
+        {
+          "catalog": "default",
+          "schema": "default",
+          "table": "missing_table",
+          "alias": null
+        }
+      ]
+    },
+    "lineage_ir_nodes": [],
+    "lineage_ir_edges": [],
+    "diagnostics_error_count": 1,
+    "diagnostics_contains": [
+      {
+        "code": "UNKNOWN_TABLE",
+        "level": "error",
+        "message_contains": "missing_table"
+      }
+    ]
+  }
+}
