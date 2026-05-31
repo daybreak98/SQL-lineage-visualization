@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "metadata_version": "p0-fixture-v1",
+  "case_sensitive": false,
+  "default_catalog": "default",
+  "default_schema": "default",
+  "source_name": "golden_case_fixture",
+  "tables": [
+    {
+      "catalog": "default",
+      "schema": "default",
+      "name": "order_table",
+      "comment": "订单事实表（含重复字段）",
+      "table_type": "table",
+      "columns": [
+        {
+          "name": "order_no",
+          "data_type": "string",
+          "comment": "订单号",
+          "ordinal": 1,
+          "is_partition": false,
+          "nullable": false
+        },
+        {
+          "name": "user_id",
+          "data_type": "string",
+          "comment": "用户ID",
+          "ordinal": 2,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "order_no",
+          "data_type": "string",
+          "comment": "重复的订单号字段",
+          "ordinal": 3,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "dt",
+          "data_type": "string",
+          "comment": "分区日期",
+          "ordinal": 4,
+          "is_partition": true,
+          "nullable": false
+        }
+      ]
+    }
+  ]
+}

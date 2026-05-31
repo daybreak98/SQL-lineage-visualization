@@ -1,0 +1,16 @@
+{
+  "description": "CTE + window function SQL: multi-level CTE chain with aggregate windows and row_number ranking",
+  "expected": {
+    "status": "success",
+    "tables_extracted": ["intl_hotel_orders"],
+    "tables_extracted_count": 1,
+    "ctes_extracted": ["mt", "t1", "t2", "t3"],
+    "ctes_extracted_count": 4,
+    "output_columns": ["agent_id", "gmv"],
+    "min_columns_extracted": 2,
+    "has_window_functions": true,
+    "has_aggregations": true,
+    "has_case_expression": true,
+    "has_group_by": true
+  }
+}

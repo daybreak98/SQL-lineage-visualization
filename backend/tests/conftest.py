@@ -1,14 +1,19 @@
 """
-conftest.py - R00 + R01 测试 fixtures
+conftest.py - R00 + R01 + R02 测试 fixtures
 
 提供可复用的测试 fixtures：
 - temp_db: 创建临时 SQLite 数据库，自动清理
 - repo_with_fixture: 加载 golden case fixture 数据的 repository
+- repo: R02 集成测试使用的独立内存 SQLite repository
+- valid_payload: R02 JSON 元数据导入的最小合法 payload
+- large_payload: R02 多表多字段的合法 payload
+- import_service: R02 绑定临时数据库的 MetadataImportService 实例
 """
 
 import json
 import os
 import tempfile
+from typing import Any
 
 import pytest
 
@@ -118,3 +123,133 @@ def repo_with_fixture(temp_db):
         repo.upsert_columns(table_id, data["metadata_version"], columns)
 
     return repo, db_path
+
+
+# ---------------------------------------------------------------------------
+# R01: MetadataStore integration tests fixture
+# ---------------------------------------------------------------------------
+@pytest.fixture
+def repo():
+    """Create a repository backed by an in-memory SQLite database."""
+    from app.repositories.metadata_repository import MetadataRepository
+    r = MetadataRepository(db_path=":memory:")
+    yield r
+
+
+# ---------------------------------------------------------------------------
+# R02: JSON 元数据导入 fixtures
+# ---------------------------------------------------------------------------
+
+@pytest.fixture(scope="function")
+def valid_payload() -> Any:
+    """构造一个最小合法 MetadataImportPayload（R02）。
+
+    包含 1 张表、2 个字段，覆盖正常导入场景。
+    返回 MetadataImportPayload 实例。
+    """
+    from app.domain.contracts import (
+        MetadataColumnInput,
+        MetadataImportPayload,
+        MetadataTableInput,
+    )
+    return MetadataImportPayload(
+        schema_version="1.0",
+        metadata_version="test-v1",
+        case_sensitive=False,
+        default_catalog="default",
+        default_schema="default",
+        source_name="r02-test",
+        tables=[
+            MetadataTableInput(
+                catalog="default",
+                schema="default",
+                name="test_table",
+                comment="测试表",
+                table_type="table",
+                columns=[
+                    MetadataColumnInput(
+                        name="col_a",
+                        data_type="string",
+                        comment="字段A",
+                        ordinal=1,
+                        is_partition=False,
+                        nullable=False,
+                    ),
+                    MetadataColumnInput(
+                        name="col_b",
+                        data_type="int",
+                        comment="字段B",
+                        ordinal=2,
+                        is_partition=False,
+                        nullable=True,
+                    ),
+                ],
+            ),
+        ],
+    )
+
+
+@pytest.fixture(scope="function")
+def large_payload() -> Any:
+    """构造包含多表多字段的较大合法 Payload（R02）。
+
+    包含 3 张表、每表 5 个字段，用于 multi-table 导入测试。
+    返回 MetadataImportPayload 实例。
+    """
+    from app.domain.contracts import (
+        MetadataColumnInput,
+        MetadataImportPayload,
+        MetadataTableInput,
+    )
+    tables = []
+    for ti in range(3):
+        columns = []
+        for ci in range(5):
+            columns.append(
+                MetadataColumnInput(
+                    name=f"col_{ti}_{ci}",
+                    data_type="string" if ci % 2 == 0 else "int",
+                    ordinal=ci + 1,
+                )
+            )
+        tables.append(
+            MetadataTableInput(
+                catalog="default",
+                schema="default",
+                name=f"multi_table_{ti}",
+                columns=columns,
+            )
+        )
+    return MetadataImportPayload(
+        metadata_version="test-multi-v1",
+        tables=tables,
+    )
+
+
+@pytest.fixture(scope="function")
+def import_service(temp_db: Any) -> Any:
+    """创建一个绑定临时数据库的 MetadataImportService 实例（R02）。
+
+    如果 MetadataImportService 尚未实现（ImportError），返回 None，
+    测试应使用 pytest.skip 跳过。
+    """
+    try:
+        from app.services.metadata_import_service import MetadataImportService
+        repo, _ = temp_db
+        return MetadataImportService(repo)
+    except ImportError:
+        return None
+
+
+# ---------------------------------------------------------------------------
+# R02 辅助断言工具（计划由 test-engineer 按需扩展）
+# ---------------------------------------------------------------------------
+
+def diagnostics_by_code(result: Any, code: Any) -> list:
+    """从 MetadataImportResult 中按 DiagnosticCode 过滤 diagnostics。"""
+    return [d for d in result.diagnostics if d.code == code]
+
+
+def diagnostics_by_level(result: Any, level: Any) -> list:
+    """从 MetadataImportResult 中按 DiagnosticLevel 过滤 diagnostics。"""
+    return [d for d in result.diagnostics if d.level == level]

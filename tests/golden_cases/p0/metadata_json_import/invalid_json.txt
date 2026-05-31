@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "metadata_version": "p0-fixture-v1",
+  "tables": [
+    {
+      "name": "broken_table",
+      "columns": [
+        {
+          "name": "col_a",
+          "data_type": "string",
+        }
+      ]
+    }
+  ]
+}
+THIS IS NOT VALID JSON - trailing commas and extra text

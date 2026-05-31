@@ -1,0 +1,3055 @@
+{
+  "schema_version": "1.0",
+  "metadata_version": "p0-real-v1",
+  "case_sensitive": false,
+  "default_catalog": "default",
+  "default_schema": "default",
+  "source_name": "metadata_cache_export",
+  "tables": [
+    {
+      "catalog": "default",
+      "schema": "default",
+      "name": "test_table",
+      "comment": "default.test_table",
+      "table_type": "table",
+      "columns": [
+        {
+          "name": "col_a",
+          "data_type": "string",
+          "comment": "字段A",
+          "ordinal": null,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "col_b",
+          "data_type": "int",
+          "comment": "字段B",
+          "ordinal": null,
+          "is_partition": false,
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "catalog": "default",
+      "schema": "default",
+      "name": "dim_user",
+      "comment": "default.dim_user",
+      "table_type": "table",
+      "columns": [
+        {
+          "name": "user_id",
+          "data_type": "string",
+          "comment": "用户ID",
+          "ordinal": 1,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "user_name",
+          "data_type": "string",
+          "comment": "用户名称",
+          "ordinal": 2,
+          "is_partition": false,
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "catalog": "default",
+      "schema": "default",
+      "name": "test_tbl",
+      "comment": "default.test_tbl",
+      "table_type": "table",
+      "columns": [
+        {
+          "name": "col_a",
+          "data_type": "string",
+          "comment": "字段A",
+          "ordinal": null,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "col_b",
+          "data_type": "int",
+          "comment": "字段B",
+          "ordinal": null,
+          "is_partition": false,
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "catalog": "default",
+      "schema": "default",
+      "name": "dwd_order_di",
+      "comment": "default.dwd_order_di",
+      "table_type": "table",
+      "columns": [
+        {
+          "name": "order_id",
+          "data_type": "string",
+          "comment": "订单ID",
+          "ordinal": 1,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "user_id",
+          "data_type": "string",
+          "comment": "用户ID",
+          "ordinal": 2,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "pay_amt",
+          "data_type": "decimal(18,2)",
+          "comment": "支付金额",
+          "ordinal": 3,
+          "is_partition": false,
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "catalog": "default",
+      "schema": "default",
+      "name": "mdw_order_v3_international",
+      "comment": "default.mdw_order_v3_international",
+      "table_type": "table",
+      "columns": [
+        {
+          "name": "order_no",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 1,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "order_date",
+          "data_type": "date",
+          "comment": null,
+          "ordinal": 2,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "order_time",
+          "data_type": "timestamp",
+          "comment": null,
+          "ordinal": 3,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "checkin_date",
+          "data_type": "date",
+          "comment": null,
+          "ordinal": 4,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "checkout_date",
+          "data_type": "date",
+          "comment": null,
+          "ordinal": 5,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "advance_booking_days",
+          "data_type": "integer",
+          "comment": null,
+          "ordinal": 6,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "in_dates",
+          "data_type": "array",
+          "comment": null,
+          "ordinal": 7,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "hotel_seq",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 8,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "hotel_name",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 9,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "physical_room_name",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 10,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "hotel_grade",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 11,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "city_code",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 12,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "city_name",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 13,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "is_mainland_china",
+          "data_type": "byte",
+          "comment": null,
+          "ordinal": 14,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "province_name",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 15,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "country_name",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 16,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "business_line",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 17,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "supplier_code",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 18,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "supplier_name",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 19,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "supplier_cooperate_type",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 20,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "supplier_owner",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 21,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "supplier_faction",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 22,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "is_direct_supplied",
+          "data_type": "byte",
+          "comment": null,
+          "ordinal": 23,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "is_direct_connected",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 24,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "is_international_supplier",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 25,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "is_tuan_supplier",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 26,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "user_id",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 27,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "user_name",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 28,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "contact_phone",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 29,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "device_id",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 30,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "distributor_id",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 31,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "distributor_name",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 32,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "third_distributor_channel",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 33,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "distributor_system",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 34,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "mobile_platform",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 35,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "business_tag",
+          "data_type": "array",
+          "comment": null,
+          "ordinal": 36,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "terminal_channel_type",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 37,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "data_source",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 38,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "promotion_type",
+          "data_type": "array",
+          "comment": null,
+          "ordinal": 39,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "buyout_type",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 40,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "is_international",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 41,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "breakfast",
+          "data_type": "byte",
+          "comment": null,
+          "ordinal": 42,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "is_guarantee",
+          "data_type": "integer",
+          "comment": null,
+          "ordinal": 43,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "guarantee_type",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 44,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "guarantee_condition",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 45,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "is_hours_room",
+          "data_type": "integer",
+          "comment": null,
+          "ordinal": 46,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "order_status",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 47,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "pay_status",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 48,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "cash_status",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 49,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "pay_type",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 50,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "audit_status",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 51,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "is_valid",
+          "data_type": "integer",
+          "comment": null,
+          "ordinal": 52,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "room_num",
+          "data_type": "integer",
+          "comment": null,
+          "ordinal": 53,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "room_night",
+          "data_type": "integer",
+          "comment": null,
+          "ordinal": 54,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "product_type",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 55,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "checkin_daynum",
+          "data_type": "integer",
+          "comment": null,
+          "ordinal": 56,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_room_fee",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 57,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_room_fee",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 58,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_payamount_price",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 59,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_payamount_price",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 60,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_commission",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 61,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_commission",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 62,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_commission_subtract",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 63,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_commission_subtract",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 64,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_subtract",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 65,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_subtract",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 66,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_camel_card",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 67,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_camel_card",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 68,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_cashback",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 69,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_cashback",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 70,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "predict_cashback",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 71,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "predict_cashback_q",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 72,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "real_cashback",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 73,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_value_added_service",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 74,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_value_added_service",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 75,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_thirdpart_subtract",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 76,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_thirdpart_subtract",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 77,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_thirdpart_cashback",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 78,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_thirdpart_cashback",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 79,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_thirdpart_subtract_detail",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 80,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_thirdpart_subtract_detail",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 81,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_thirdpart_cashback_detail",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 82,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_thirdpart_cashback_detail",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 83,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_subtract_detail",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 84,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_subtract_detail",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 85,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_cashback_detail",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 86,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_cashback_detail",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 87,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_value_added_service_detail",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 88,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_value_added_service_detail",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 89,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "hds_commission_detail",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 90,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "extend_info",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 91,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "fund_data_source",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 92,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "app_channel_id",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 93,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "qta_product_type",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 94,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "cancel_rule",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 95,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "guarantee_rule",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 96,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "product_order_refund_type",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 97,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "product_order_cancel_type",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 98,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "wrapper_id",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 99,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "wrapper_name",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 100,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "twell_product_id",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 101,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "is_instant_confirm",
+          "data_type": "integer",
+          "comment": null,
+          "ordinal": 102,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "partner_hotel_id",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 103,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "partner_order_no",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 104,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "first_confirmed_time",
+          "data_type": "timestamp",
+          "comment": null,
+          "ordinal": 105,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "first_cancelled_time",
+          "data_type": "timestamp",
+          "comment": null,
+          "ordinal": 106,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "first_rejected_time",
+          "data_type": "timestamp",
+          "comment": null,
+          "ordinal": 107,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "first_pay_time",
+          "data_type": "timestamp",
+          "comment": null,
+          "ordinal": 108,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "refund_time",
+          "data_type": "timestamp",
+          "comment": null,
+          "ordinal": 109,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "pay_close_time",
+          "data_type": "timestamp",
+          "comment": null,
+          "ordinal": 110,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "user_tracking_data",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 111,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "user_info",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 112,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "qta_supplier_id",
+          "data_type": "long",
+          "comment": null,
+          "ordinal": 113,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "physical_room_id",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 114,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "cheat_status",
+          "data_type": "byte",
+          "comment": null,
+          "ordinal": 115,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "aggregate_status",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 116,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "contact_name",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 117,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "is_malice",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 118,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "pay_info",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 119,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "contact_phone_tc",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 120,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "region_type",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 121,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "benefit_promotion_code",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 122,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "promotion_activityid",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 123,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "logic_bit",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 124,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "benefit_money",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 125,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "benefit_activity_id",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 126,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "keep_reduce",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 127,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "activity_reduce",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 128,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "benefit_promotion_code_map",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 129,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "benefit_activity_id_map",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 130,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "intern_vcc",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 131,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "current_auth_type",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 132,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "types",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 133,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "tc_productname",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 134,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "price_compare",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 135,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "compare_wrapper_id",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 136,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "crid",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 137,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "xcr",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 138,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "icr",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 139,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "dcr",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 140,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "xb",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 141,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "ib",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 142,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "hc",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 143,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "aid",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 144,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "im",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 145,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "bp",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 146,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "p_i_rid",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 147,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "p_i_cr",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 148,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "p_i_incr",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 149,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "p_i_ckr",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 150,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "p_2_rid",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 151,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "p_2_hokey",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 152,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "p_2_incr",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 153,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "p_2_kp",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 154,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "p_3_rid",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 155,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "p_31_dis",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 156,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "p_31_kp",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 157,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "p_32_dis",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 158,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "p_32_kp",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 159,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "first_a",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 160,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "second_a",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 161,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "third_a",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 162,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "four_a",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 163,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "sellmode",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 164,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "qcr",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 165,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "qca",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 166,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "qunarcommission",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 167,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "baseprice",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 168,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "coupon_id",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 169,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "coupon_name",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 170,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "batch_series",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 171,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "coupon_description",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 172,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "coupon_substract",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 173,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "abtest_info",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 174,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "third_supplier_id",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 175,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "agent_price_flag",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 176,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "compete_3_cwp",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 177,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "max_c",
+          "data_type": "integer",
+          "comment": null,
+          "ordinal": 178,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "bed_type",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 179,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "gifts",
+          "data_type": "integer",
+          "comment": null,
+          "ordinal": 180,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "iscombine",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 181,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "promotion_id",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 182,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "dai_kou_a2b_amount",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 183,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "intl_dai_kou_account",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 184,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "kunkka_order",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 185,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "purchase_change_record_list",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 186,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "reject_change_record_list",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 187,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "room_cluster_info",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 188,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "user_order_wrapper_id",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 189,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "belong_city",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 190,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_service_fee",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 191,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_service_fee",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 192,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_service_detail",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 193,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_service_detail",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 194,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_predict_cashback",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 195,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_predict_cashback_q",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 196,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_fine_fee",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 197,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_fine_fee",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 198,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_right_fee",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 199,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_right_fee",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 200,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_right_detail",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 201,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_right_detail",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 202,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_freeroom_commission",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 203,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_freeroom_commission",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 204,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_sharing_commission",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 205,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_sharing_commission",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 206,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "is_predict_commission",
+          "data_type": "integer",
+          "comment": null,
+          "ordinal": 207,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_benefit_subtract",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 208,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_benefit_subtract",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 209,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_benefit_subtract_detail",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 210,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_benefit_subtract_detail",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 211,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_gmv",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 212,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_gmv",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 213,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_commission_pre",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 214,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_commission_pre",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 215,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_commission_after_new",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 216,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_commission_after_new",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 217,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "agent_logo_code",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 218,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "latest_checkin_time",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 219,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "qta_product_id",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 220,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "product_full_name",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 221,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "related_order_no",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 222,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "user_remark",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 223,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "guarantee_amount",
+          "data_type": "struct",
+          "comment": null,
+          "ordinal": 224,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "is_reserve_room",
+          "data_type": "integer",
+          "comment": null,
+          "ordinal": 225,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "income_type",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 226,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "booking_window",
+          "data_type": "integer",
+          "comment": null,
+          "ordinal": 227,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "pack_coupon_info",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 228,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "pack_product_info",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 229,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "qta_sroom_id",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 230,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "order_status_snapshot",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 231,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "pay_status_snapshot",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 232,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "cash_status_snapshot",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 233,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "audit_status_snapshot",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 234,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "guest_idcard_info",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 235,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "is_ota_direct",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 236,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_cost",
+          "data_type": "double",
+          "comment": null,
+          "ordinal": 237,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "c_cost",
+          "data_type": "double",
+          "comment": null,
+          "ordinal": 238,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "s_cost",
+          "data_type": "double",
+          "comment": null,
+          "ordinal": 239,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "confirmno",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 240,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "confirm_no_update_time",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 241,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "description",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 242,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "compete_1_cwp",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 243,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "compete_2_cwp",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 244,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "compete_4_cwp",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 245,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "compete_1_thanos_price",
+          "data_type": "double",
+          "comment": null,
+          "ordinal": 246,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "compete_2_thanos_price",
+          "data_type": "double",
+          "comment": null,
+          "ordinal": 247,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "compete_3_thanos_price",
+          "data_type": "double",
+          "comment": null,
+          "ordinal": 248,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "compete_4_thanos_price",
+          "data_type": "double",
+          "comment": null,
+          "ordinal": 249,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "effective_confirm_time",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 250,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "v2vcc",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 251,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "supplier_commission_promotion",
+          "data_type": "decimal(18,2)",
+          "comment": null,
+          "ordinal": 252,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "bre_avg",
+          "data_type": "integer",
+          "comment": null,
+          "ordinal": 253,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "lun_avg",
+          "data_type": "integer",
+          "comment": null,
+          "ordinal": 254,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "din_avg",
+          "data_type": "integer",
+          "comment": null,
+          "ordinal": 255,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "presell_ticket_base_price",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 256,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "presell_ticket_sell_price",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 257,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "promotion_ids_set",
+          "data_type": "array",
+          "comment": null,
+          "ordinal": 258,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "is_pkg_product",
+          "data_type": "boolean",
+          "comment": null,
+          "ordinal": 259,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "pkg_product_name",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 260,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "pkg_product_items",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 261,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "customer_names",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 262,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "partner_product_id",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 263,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "c_supplier_id",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 264,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "c_isagent",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 265,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "order_cancel_reason",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 266,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "v2_hc",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 267,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "v2_c_source",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 268,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "v2_c_wrapper",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 269,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "v2_c_price",
+          "data_type": "double",
+          "comment": null,
+          "ordinal": 270,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "v2_c_incr",
+          "data_type": "double",
+          "comment": null,
+          "ordinal": 271,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "v2_s_incr_h",
+          "data_type": "double",
+          "comment": null,
+          "ordinal": 272,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "v2_s_incr_l",
+          "data_type": "double",
+          "comment": null,
+          "ordinal": 273,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "v2_s_price_abs",
+          "data_type": "double",
+          "comment": null,
+          "ordinal": 274,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "v2_s_price_ratio",
+          "data_type": "double",
+          "comment": null,
+          "ordinal": 275,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "v2_s_incr_abs",
+          "data_type": "double",
+          "comment": null,
+          "ordinal": 276,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "v2_s_incr_ratio",
+          "data_type": "double",
+          "comment": null,
+          "ordinal": 277,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "v2_s_beat_type",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 278,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "v2_s_id",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 279,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "v2_s_branch",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 280,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "supplier_promotion_activity_ids",
+          "data_type": "array",
+          "comment": null,
+          "ordinal": 281,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "supplier_promotion_rule_ids",
+          "data_type": "array",
+          "comment": null,
+          "ordinal": 282,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "third_a_reduce",
+          "data_type": "double",
+          "comment": null,
+          "ordinal": 283,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "four_a_reduce",
+          "data_type": "double",
+          "comment": null,
+          "ordinal": 284,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "user_ip",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 285,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "user_country",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 286,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "v2_c_incr_level",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 287,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "coupon_info",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 288,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "user_selected_country",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 289,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "my_tourism_tax",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 290,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "settlement_currency",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 291,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "exchangerate",
+          "data_type": "double",
+          "comment": null,
+          "ordinal": 292,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "base_price",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 293,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "sell_price",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 294,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "gnorm_max_advance_days",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 295,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "gnorm_min_advance_days",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 296,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "gnorm_min_advance_hours",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 297,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "gnorm_last",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 298,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "gnorm_max_last",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 299,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "origin_name",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 300,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "is_promotion",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 301,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "excludedtaxservicefee",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 302,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "plat_certificate",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 303,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "plat_promotion",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 304,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "government_certificate",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 305,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "benefit_subtract",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 306,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "ordersettlefee",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 307,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "sup_base_price",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 308,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "nationality_taxes",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 309,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "content_info",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 310,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "ext_commission_map",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 311,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "base_price_new",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 312,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "ext_flag_map",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 313,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "qmianshamap",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 314,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "reject_reason",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 315,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "cashbackmap",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 316,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "remark_map",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 317,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "supplier_promotion_code",
+          "data_type": "array",
+          "comment": null,
+          "ordinal": 318,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "supplier_promotion_desc",
+          "data_type": "array",
+          "comment": null,
+          "ordinal": 319,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "available_status",
+          "data_type": "array",
+          "comment": null,
+          "ordinal": 320,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "q_promotion_code",
+          "data_type": "array",
+          "comment": null,
+          "ordinal": 321,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "promotion_amount",
+          "data_type": "array",
+          "comment": null,
+          "ordinal": 322,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "currency",
+          "data_type": "array",
+          "comment": null,
+          "ordinal": 323,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "extendinfomap",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 324,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "ext_plat_certificate",
+          "data_type": "double",
+          "comment": null,
+          "ordinal": 325,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "sponsor_array",
+          "data_type": "array",
+          "comment": null,
+          "ordinal": 326,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "belong_city_code",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 327,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "belong_city_name",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 328,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "follow_price_amount",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 329,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_commission_after",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 330,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_commission_after",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 331,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "benefit_subtract_final",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 332,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "plat_promotion_final",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 333,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "plat_certificate_final",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 334,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "base_price_new_final",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 335,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "payamount_price_be_voucher",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 336,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "coupon_substract_summary",
+          "data_type": "double",
+          "comment": null,
+          "ordinal": 337,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "extend_info_product",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 338,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "promotion_score_info",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 339,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "homogenizationkey",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 340,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "points_deduction_amount",
+          "data_type": "double",
+          "comment": null,
+          "ordinal": 341,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "points_deduction_benefit",
+          "data_type": "double",
+          "comment": null,
+          "ordinal": 342,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "finance_map",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 343,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_gmv_v1",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 344,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_gmv_v1",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 345,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_commission_after_v1",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 346,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_commission_after_v1",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 347,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_gmv_corp",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 348,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_gmv_corp",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 349,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "init_commission_after_corp",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 350,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "final_commission_after_corp",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 351,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "voucher_pack_price",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 352,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "taxes",
+          "data_type": "decimal(18,4)",
+          "comment": null,
+          "ordinal": 353,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "service_cost_map",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 354,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "normal_points_deduction_amount",
+          "data_type": "double",
+          "comment": null,
+          "ordinal": 355,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "user_identity_tag",
+          "data_type": "array",
+          "comment": null,
+          "ordinal": 356,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "gmv_map_test",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 357,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "commission_map_test",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 358,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "points_info",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 359,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "column99",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 360,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "commission_map",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 361,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "cancel_red_packet_data_track_map",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 362,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "commission_corp",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 363,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "room_fee_corp",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 364,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "price_change_map",
+          "data_type": "map",
+          "comment": null,
+          "ordinal": 365,
+          "is_partition": false,
+          "nullable": true
+        },
+        {
+          "name": "dt",
+          "data_type": "string",
+          "comment": null,
+          "ordinal": 366,
+          "is_partition": true,
+          "nullable": true
+        }
+      ]
+    }
+  ]
+}

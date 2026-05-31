@@ -8,7 +8,22 @@
 | `01_Agent模块拆解文档/` | 面向 agent 的模块级开发文档，M01-M28 | 是，最高优先级 |
 | `02_阶段开发规格/` | P0-P3/P4 阶段级开发规格和补充说明 | 是，辅助参考 |
 | `03_前端页面文档/` | 前端页面与交互设计规格 | 是，前端参考 |
+| `04_交接文档/` | 当前实现交接、后续开发注意事项、OpenCode 继续开发上下文 | 是，交接入口 |
 | `99_历史文档/` | 旧方案、旧需求、评审与评价报告 | 否，仅追溯 |
+
+## 当前前端入口
+
+当前运行前端位于项目根目录的 `frontend/`，已切换为 `sql-lineage-workbench-v1.4/` 对应的 React + Vite 实现。
+
+- 启动目录：`frontend/`
+- 启动命令：`npm run dev`
+- 浏览地址：`http://localhost:5173`
+- React 入口：`frontend/src/main.tsx`
+- 页面主组件：`frontend/src/App.tsx`
+- Vite 配置：`frontend/vite.config.ts`
+- 后端代理：`/api` → `http://localhost:8000`
+
+`sql-lineage-workbench-v1.4/` 保留为来源参考目录；后续开发、联调和修复应以 `frontend/` 为准。
 
 ## Agent 开发阅读顺序
 

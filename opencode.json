@@ -16,15 +16,7 @@
         "grep": "allow",
         "list": "allow",
         "edit": "allow",
-        "bash": {
-          "*": "ask",
-          "git status*": "allow",
-          "git log*": "allow",
-          "git diff*": "allow",
-          "dir*": "allow",
-          "ls*": "allow",
-          "Get-ChildItem*": "allow"
-        },
+        "bash": "allow",
         "task": {
           "*": "allow"
         },
@@ -43,12 +35,7 @@
         "grep": "allow",
         "list": "allow",
         "edit": "allow",
-        "bash": {
-          "*": "ask",
-          "dir*": "allow",
-          "ls*": "allow",
-          "Get-ChildItem*": "allow"
-        },
+        "bash": "allow",
         "task": "deny",
         "todowrite": "allow",
         "question": "allow"
@@ -65,12 +52,7 @@
         "grep": "allow",
         "list": "allow",
         "edit": "allow",
-        "bash": {
-          "*": "ask",
-          "dir*": "allow",
-          "ls*": "allow",
-          "Get-ChildItem*": "allow"
-        },
+        "bash": "allow",
         "task": "deny",
         "todowrite": "allow",
         "question": "allow"
@@ -87,21 +69,7 @@
         "grep": "allow",
         "list": "allow",
         "edit": "allow",
-        "bash": {
-          "*": "ask",
-          "npm run dev*": "allow",
-          "npm run build*": "allow",
-          "npm run test*": "allow",
-          "npm run lint*": "allow",
-          "yarn dev*": "allow",
-          "yarn build*": "allow",
-          "yarn test*": "allow",
-          "pnpm dev*": "allow",
-          "pnpm build*": "allow",
-          "pnpm test*": "allow",
-          "dir*": "allow",
-          "ls*": "allow"
-        },
+        "bash": "allow",
         "task": "deny",
         "todowrite": "allow",
         "question": "allow"
@@ -118,11 +86,7 @@
         "grep": "allow",
         "list": "allow",
         "edit": "allow",
-        "bash": {
-          "*": "ask",
-          "dir*": "allow",
-          "ls*": "allow"
-        },
+        "bash": "allow",
         "task": "deny",
         "todowrite": "allow",
         "question": "allow"
@@ -139,13 +103,7 @@
         "grep": "allow",
         "list": "allow",
         "edit": "allow",
-        "bash": {
-          "*": "ask",
-          "python*": "allow",
-          "pytest*": "allow",
-          "dir*": "allow",
-          "ls*": "allow"
-        },
+        "bash": "allow",
         "task": "deny",
         "todowrite": "allow",
         "question": "allow"
@@ -162,12 +120,7 @@
         "grep": "allow",
         "list": "allow",
         "edit": "allow",
-        "bash": {
-          "*": "ask",
-          "dir*": "allow",
-          "ls*": "allow",
-          "Get-ChildItem*": "allow"
-        },
+        "bash": "allow",
         "task": "deny",
         "todowrite": "allow",
         "question": "allow"
@@ -184,17 +137,7 @@
         "grep": "allow",
         "list": "allow",
         "edit": "allow",
-        "bash": {
-          "*": "ask",
-          "pytest*": "allow",
-          "npm test*": "allow",
-          "npm run test*": "allow",
-          "yarn test*": "allow",
-          "pnpm test*": "allow",
-          "python -m pytest*": "allow",
-          "dir*": "allow",
-          "ls*": "allow"
-        },
+        "bash": "allow",
         "task": "deny",
         "todowrite": "allow",
         "question": "allow"

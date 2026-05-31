@@ -10,11 +10,14 @@ with mt as (
     from intl_hotel_orders
     group by 1, 2
 )
-   , t1 as (
+   , t1
+       as (
     select agent_id,
            dd,
+
            gmv,
-           if(dd = min(dd) over (partition by agent_id order by dd), gmv, 0)      GMV_min,
+           if(dd = min(dd) over (partition by agent_id order by dd), gmv, 0)
+               GMV_min,
            if(dd = max(dd) over (partition by agent_id order by dd desc), gmv, 0) GMV_max
     from mt
 )

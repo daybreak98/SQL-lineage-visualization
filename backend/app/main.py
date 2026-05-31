@@ -8,6 +8,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.health_controller import router as health_router
+from app.api.metadata_controller import router as metadata_router
+from app.api.sql_controller import router as sql_router
 
 
 def _get_db_path() -> str:
@@ -65,6 +67,8 @@ app.add_middleware(
 
 # Register routers
 app.include_router(health_router, prefix="/api")
+app.include_router(metadata_router)
+app.include_router(sql_router)
 
 
 if __name__ == "__main__":

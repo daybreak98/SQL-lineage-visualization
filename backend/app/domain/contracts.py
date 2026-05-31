@@ -16,6 +16,20 @@ class AnalysisStatus(str, Enum):
     failed = "failed"
 
 
+class StageState(str, Enum):
+    success = "success"
+    partial = "partial"
+    failed = "failed"
+    skipped = "skipped"
+
+
+class ConfidenceLevel(str, Enum):
+    high = "high"
+    medium = "medium"
+    low = "low"
+    unknown = "unknown"
+
+
 class Dialect(str, Enum):
     spark = "spark"
     hive = "hive"
@@ -108,6 +122,11 @@ class DiagnosticCode(str, Enum):
     METADATA_IMPORT_INVALID_JSON = "METADATA_IMPORT_INVALID_JSON"
     METADATA_IMPORT_DUPLICATE_COLUMN = "METADATA_IMPORT_DUPLICATE_COLUMN"
     METADATA_IMPORT_SCHEMA_UNSUPPORTED = "METADATA_IMPORT_SCHEMA_UNSUPPORTED"
+    METADATA_IMPORT_EMPTY_TABLE_NAME = "METADATA_IMPORT_EMPTY_TABLE_NAME"
+    METADATA_IMPORT_EMPTY_COLUMNS = "METADATA_IMPORT_EMPTY_COLUMNS"
+    METADATA_IMPORT_COMPLEX_TYPE = "METADATA_IMPORT_COMPLEX_TYPE"
+    METADATA_IMPORT_MISSING_ORDINAL = "METADATA_IMPORT_MISSING_ORDINAL"
+    METADATA_IMPORT_COMMIT_FAILED = "METADATA_IMPORT_COMMIT_FAILED"
     SOURCE_LOCATION_UNAVAILABLE = "SOURCE_LOCATION_UNAVAILABLE"
     NOT_SUPPORTED_IN_P0 = "NOT_SUPPORTED_IN_P0"
 
@@ -123,6 +142,8 @@ class SourceLocation(StrictBaseModel):
     location_id: str
     entity_id: str
     entity_type: EntityType
+    source_sql_id: str | None = None
+    range_type: Literal["exact", "synthetic", "unavailable"] = "unavailable"
     start_line: int | None = Field(default=None, ge=1)
     start_col: int | None = Field(default=None, ge=1)
     end_line: int | None = Field(default=None, ge=1)
@@ -149,6 +170,14 @@ class DiagnosticsReport(StrictBaseModel):
     error_count: int = 0
     warning_count: int = 0
     info_count: int = 0
+
+
+class StageStatus(StrictBaseModel):
+    stage: str
+    status: StageState
+    elapsed_ms: int = Field(default=0, ge=0)
+    diagnostic_codes: list[DiagnosticCode] = Field(default_factory=list)
+    message: str | None = None
 
 
 # Metadata import models
@@ -316,6 +345,9 @@ class LineageIR(StrictBaseModel):
     scopes: list[ScopeItem] = Field(default_factory=list)
     nodes: list[LineageNode] = Field(default_factory=list)
     edges: list[LineageEdge] = Field(default_factory=list)
+    partial: bool = False
+    confidence_level: ConfidenceLevel = ConfidenceLevel.unknown
+    confidence_reasons: list[str] = Field(default_factory=list)
 
 
 class SemanticsReport(StrictBaseModel):
@@ -336,6 +368,7 @@ class GraphPosition(StrictBaseModel):
 
 class GraphNode(StrictBaseModel):
     id: str
+    entity_id: str | None = None
     node_type: GraphNodeType
     label: str
     position: GraphPosition = Field(default_factory=GraphPosition)
@@ -348,6 +381,8 @@ class GraphEdge(StrictBaseModel):
     edge_type: GraphEdgeType
     source: str
     target: str
+    source_entity_id: str | None = None
+    target_entity_id: str | None = None
     label: str | None = None
     source_location_id: str | None = None
     data: dict[str, Any] = Field(default_factory=dict)
@@ -375,8 +410,14 @@ class AnalysisSummary(StrictBaseModel):
 
 
 class AnalysisResult(StrictBaseModel):
+    schema_version: str = "1.0"
     analysis_id: str
     status: AnalysisStatus
+    confidence_level: ConfidenceLevel = ConfidenceLevel.unknown
+    confidence_reasons: list[str] = Field(default_factory=list)
+    stage_statuses: list[StageStatus] = Field(default_factory=list)
+    unsupported_features: list[str] = Field(default_factory=list)
+    elapsed_ms: int = Field(default=0, ge=0)
     dialect: Dialect
     normalized_sql: str | None = None
     metadata_context: MetadataContext
@@ -408,3 +449,27 @@ class ApiError(StrictBaseModel):
 
 class ApiErrorResponse(StrictBaseModel):
     error: ApiError
+
+
+# ---------------------------------------------------------------------------
+# 内部模型（不直接暴露给 API）
+# ---------------------------------------------------------------------------
+
+class ParseResult:
+    """内部解析结果，不直接暴露 AST 给 API。"""
+
+    def __init__(
+        self,
+        success: bool,
+        ast=None,
+        dialect: str = 'spark',
+        normalized_sql: str | None = None,
+        error: str | None = None,
+        error_code: str | None = None,
+    ):
+        self.success = success
+        self.ast = ast
+        self.dialect = dialect
+        self.normalized_sql = normalized_sql
+        self.error = error
+        self.error_code = error_code

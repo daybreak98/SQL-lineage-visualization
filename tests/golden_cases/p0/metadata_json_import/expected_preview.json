@@ -1,0 +1,211 @@
+{
+  "status": "preview_ready",
+  "import_batch_id": null,
+  "metadata_version": "p0-fixture-v1",
+  "changes": [
+    {
+      "change_type": "added",
+      "object_type": "table",
+      "object_ref": {
+        "catalog": "default",
+        "schema": "default",
+        "table": "order_table",
+        "column": null
+      },
+      "before": null,
+      "after": {
+        "catalog": "default",
+        "schema": "default",
+        "table_name": "order_table",
+        "comment": "订单事实表",
+        "table_type": "table"
+      },
+      "message": "新增表 default.order_table"
+    },
+    {
+      "change_type": "added",
+      "object_type": "column",
+      "object_ref": {
+        "catalog": "default",
+        "schema": "default",
+        "table": "order_table",
+        "column": "order_no"
+      },
+      "before": null,
+      "after": {
+        "column_name": "order_no",
+        "data_type": "string",
+        "comment": "订单号",
+        "ordinal": 1,
+        "is_partition": false
+      },
+      "message": "新增字段 default.order_table.order_no"
+    },
+    {
+      "change_type": "added",
+      "object_type": "column",
+      "object_ref": {
+        "catalog": "default",
+        "schema": "default",
+        "table": "order_table",
+        "column": "user_id"
+      },
+      "before": null,
+      "after": {
+        "column_name": "user_id",
+        "data_type": "string",
+        "comment": "用户ID",
+        "ordinal": 2,
+        "is_partition": false
+      },
+      "message": "新增字段 default.order_table.user_id"
+    },
+    {
+      "change_type": "added",
+      "object_type": "column",
+      "object_ref": {
+        "catalog": "default",
+        "schema": "default",
+        "table": "order_table",
+        "column": "order_amt"
+      },
+      "before": null,
+      "after": {
+        "column_name": "order_amt",
+        "data_type": "decimal(18,2)",
+        "comment": "订单金额",
+        "ordinal": 3,
+        "is_partition": false
+      },
+      "message": "新增字段 default.order_table.order_amt"
+    },
+    {
+      "change_type": "added",
+      "object_type": "column",
+      "object_ref": {
+        "catalog": "default",
+        "schema": "default",
+        "table": "order_table",
+        "column": "status"
+      },
+      "before": null,
+      "after": {
+        "column_name": "status",
+        "data_type": "int",
+        "comment": "订单状态",
+        "ordinal": 4,
+        "is_partition": false
+      },
+      "message": "新增字段 default.order_table.status"
+    },
+    {
+      "change_type": "added",
+      "object_type": "column",
+      "object_ref": {
+        "catalog": "default",
+        "schema": "default",
+        "table": "order_table",
+        "column": "dt"
+      },
+      "before": null,
+      "after": {
+        "column_name": "dt",
+        "data_type": "string",
+        "comment": "分区日期",
+        "ordinal": 5,
+        "is_partition": true
+      },
+      "message": "新增字段 default.order_table.dt"
+    },
+    {
+      "change_type": "added",
+      "object_type": "table",
+      "object_ref": {
+        "catalog": "default",
+        "schema": "default",
+        "table": "user_table",
+        "column": null
+      },
+      "before": null,
+      "after": {
+        "catalog": "default",
+        "schema": "default",
+        "table_name": "user_table",
+        "comment": "用户维表",
+        "table_type": "table"
+      },
+      "message": "新增表 default.user_table"
+    },
+    {
+      "change_type": "added",
+      "object_type": "column",
+      "object_ref": {
+        "catalog": "default",
+        "schema": "default",
+        "table": "user_table",
+        "column": "user_id"
+      },
+      "before": null,
+      "after": {
+        "column_name": "user_id",
+        "data_type": "string",
+        "comment": "用户ID",
+        "ordinal": 1,
+        "is_partition": false
+      },
+      "message": "新增字段 default.user_table.user_id"
+    },
+    {
+      "change_type": "added",
+      "object_type": "column",
+      "object_ref": {
+        "catalog": "default",
+        "schema": "default",
+        "table": "user_table",
+        "column": "user_name"
+      },
+      "before": null,
+      "after": {
+        "column_name": "user_name",
+        "data_type": "string",
+        "comment": "用户名称",
+        "ordinal": 2,
+        "is_partition": false
+      },
+      "message": "新增字段 default.user_table.user_name"
+    },
+    {
+      "change_type": "added",
+      "object_type": "column",
+      "object_ref": {
+        "catalog": "default",
+        "schema": "default",
+        "table": "user_table",
+        "column": "dt"
+      },
+      "before": null,
+      "after": {
+        "column_name": "dt",
+        "data_type": "string",
+        "comment": "分区日期",
+        "ordinal": 3,
+        "is_partition": true
+      },
+      "message": "新增字段 default.user_table.dt"
+    }
+  ],
+  "diagnostics": [],
+  "summary": {
+    "tables_total": 2,
+    "columns_total": 8,
+    "tables_added": 2,
+    "columns_added": 8,
+    "tables_updated": 0,
+    "columns_updated": 0,
+    "tables_unchanged": 0,
+    "columns_unchanged": 0,
+    "tables_stale": 0,
+    "columns_stale": 0,
+    "conflicts": 0
+  }
+}
