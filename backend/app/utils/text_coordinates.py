@@ -60,8 +60,12 @@ def python_index_to_utf16_offset(text: str, index: int) -> int:
     return utf16_code_units(text[:index])
 
 
-def utf16_range_for_text(text: str, raw_text: str) -> tuple[int, int] | None:
-    index = text.find(raw_text)
+def utf16_range_for_text(
+    text: str,
+    raw_text: str,
+    start_offset: int | None = None,
+) -> tuple[int, int] | None:
+    index = text.find(raw_text, start_offset or 0)
     if index < 0:
         return None
     start = python_index_to_utf16_offset(text, index)

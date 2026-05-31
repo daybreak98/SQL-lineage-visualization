@@ -35,6 +35,7 @@ class ContractAssembler:
         stage_statuses: list[StageStatus],
         unsupported_features: list[str],
         elapsed_ms: int,
+        semantics_report: SemanticsReport | None = None,
     ) -> AnalysisResult:
         return AnalysisResult(
             analysis_id=analysis_id,
@@ -48,7 +49,7 @@ class ContractAssembler:
             normalized_sql=normalized_sql,
             metadata_context=metadata_context,
             lineage_ir=lineage_ir,
-            semantics_report=SemanticsReport(status="not_supported_in_p0"),
+            semantics_report=semantics_report or SemanticsReport(status="not_supported_in_p0"),
             diagnostics_report=diagnostics_report,
             graph_view_model=graph_view_model,
             source_locations=source_locations,

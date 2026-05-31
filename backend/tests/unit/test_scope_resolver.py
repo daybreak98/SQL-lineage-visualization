@@ -18,7 +18,7 @@ def test_scope_resolver_extracts_main_relations_and_aliases():
     assert diagnostics == []
     assert [r.alias for r in model.relations] == ["o", "u"]
     assert [r.table for r in model.relations] == ["order_table", "user_table"]
-    assert model.relations[0].table_entity_id == "table:default.default.order_table"
+    assert model.relations[0].table_entity_id == "table:default.order_table"
 
 
 def test_scope_resolver_extracts_schema_table():

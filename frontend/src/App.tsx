@@ -1,8 +1,10 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { exampleSql, subqueryNodes } from './data/mockLineage';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { exampleSql, sourceLocations as mockSourceLocations, subqueryNodes } from './data/mockLineage';
 import { transitionRenderMode } from './data/selectors';
 import { analyzeSql, formatSql, getHealth, listMetadataTables } from './api/client';
-import type { BackendAnalysisResult, BackendDiagnostic, Diagnostic, GraphEdge, GraphNode, SearchItem, WorkbenchState } from './types/lineage';
+import type { BackendAnalysisResult, BackendDiagnostic, Diagnostic, GraphEdge, GraphNode, SearchItem, SourceLocation, WorkbenchState } from './types/lineage';
+import type { editor as monacoEditor } from 'monaco-editor';
+import { revealInEditor } from './components/LineageCanvas/highlight';
 import { TopBar } from './components/TopBar';
 import { LeftNav } from './components/LeftNav';
 import { SqlEditorPanel } from './components/SqlEditorPanel';
@@ -23,16 +25,20 @@ const initialState: WorkbenchState = {
   selectedEntity: 'out:group',
   selectedMapping: null,
   renderMode: 'subquery_dependency',
+  graphViewMode: 'table',
   detailMode: 'compact',
   detailTab: 'summary',
   drawerOpen: false,
   drawerTab: 'diagnostics',
-  split: 44,
+  split: 28,
   query: '',
   scope: 'all',
   large: false,
+  // fallback: initial positions from mock subqueryNodes before any backend analysis
   positions: Object.fromEntries(subqueryNodes.map((n) => [n.id, { x: n.x, y: n.y }])),
   metadataLabel: 'metadata: loading',
+  // fallback: initial source locations from mock before any backend analysis
+  sourceLocations: mockSourceLocations,
 };
 
 function normalizeDiagnostic(diagnostic: BackendDiagnostic, index: number): Diagnostic {
@@ -59,63 +65,188 @@ function normalizeEdgeType(type?: string): GraphEdge['type'] {
   return 'table';
 }
 
-function analysisToGraph(result: BackendAnalysisResult): { graph: { nodes: GraphNode[]; edges: GraphEdge[] }; searchItems: SearchItem[] } {
+function analysisToGraph(result: BackendAnalysisResult): { graph: { nodes: GraphNode[]; edges: GraphEdge[] }; searchItems: SearchItem[]; colToTables: Record<string, string[]> } {
   const apiNodes = result.graph_view_model?.nodes || [];
-  if (apiNodes.length) {
-    const nodes: GraphNode[] = apiNodes.map((node, index) => ({
-      id: node.id || `api-node-${index}`,
-      entityId: node.entity_id || node.id || `api-node-${index}`,
-      type: normalizeNodeType(node.node_type || node.type),
-      label: node.label || node.name || node.entity_id || node.id || `node_${index}`,
-      tag: tagForNodeType(node.node_type || node.type),
-      x: node.position?.x ?? node.x ?? 60 + index * 180,
-      y: node.position?.y ?? node.y ?? 80 + (index % 5) * 54,
-    }));
-    const edges: GraphEdge[] = (result.graph_view_model?.edges || []).map((edge, index) => ({
-      id: edge.id || `api-edge-${index}`,
-      source: edge.source || '',
-      target: edge.target || '',
-      type: normalizeEdgeType(edge.edge_type || edge.type),
-      mapping: edge.mapping || edge.id,
-    })).filter((edge) => edge.source && edge.target);
-    return {
-      graph: { nodes, edges },
-      searchItems: nodes.map((node) => ({
-        itemId: node.id,
-        entityId: node.entityId,
-        displayName: node.label,
-        type: node.type === 'table' || node.type === 'column' ? 'source' : node.type === 'expression' ? 'expression' : node.type === 'unknown' ? 'diagnostic' : 'output',
-        sub: node.type,
-        reason: 'backend AnalysisResult',
-        confidence: result.confidence_level === 'low' ? 'low' : result.status === 'partial' ? 'medium' : 'high',
-        warning: node.type === 'unknown',
-      })),
-    };
-  }
+  const apiEdges = result.graph_view_model?.edges || [];
 
-  const tables = result.tables_extracted || [];
-  const columns = result.columns_extracted || [];
+  // ── Build table-level graph with Query Result node ──
   const nodes: GraphNode[] = [];
   const edges: GraphEdge[] = [];
-  tables.forEach((table, index) => {
-    nodes.push({ id: `api-table-${index}`, entityId: `table:${table}`, type: 'table', label: table.split('.').pop() || table, x: 40, y: 72 + index * 58 });
-  });
-  nodes.push({ id: 'api-parse', entityId: 'parse:main', type: 'cte', label: 'SQL Parse', tag: 'API', x: 300, y: 100 + Math.max(0, tables.length - 1) * 24 });
-  tables.forEach((table, index) => edges.push({ id: `api-table-edge-${index}`, source: `table:${table}`, target: 'parse:main', type: 'table' }));
-  columns.forEach((column, index) => {
-    const entityId = `out:${column}`;
-    nodes.push({ id: `api-column-${index}`, entityId, type: 'output_field', label: column.split('.').pop() || column, tag: 'OUT', x: 570, y: 52 + index * 52 });
-    edges.push({ id: `api-output-edge-${index}`, source: 'parse:main', target: entityId, type: 'output' });
-  });
-  if (!columns.length && tables.length) {
-    nodes.push({ id: 'api-output-placeholder', entityId: 'out:parse_result', type: 'output', label: 'parse_result', tag: 'OUT', x: 570, y: 104 });
-    edges.push({ id: 'api-output-placeholder-edge', source: 'parse:main', target: 'out:parse_result', type: 'output' });
+  let outputCols: string[] = [];
+  let outputColEntities: { label: string; entityId: string }[] = [];
+  let tableCol = 0;
+  const colX = 420;
+  const startY = 40;
+  const rowH = 64;
+
+  let colToTables: Record<string, string[]> = {};
+  let maxLevel = 0;
+    const baseX = 60;
+    const levelGap = 200;
+
+  if (apiNodes.length) {
+    // Process backend graph_view_model: separate tables from outputs
+    let outNode: GraphNode | null = null;
+    apiNodes.forEach((node, i) => {
+      const ntype = node.node_type || node.type || '';
+      const label = node.label || node.name || '';
+      const eid = node.entity_id || node.id || '';
+      if (ntype === 'table' || ntype === 'cte' || ntype === 'subquery') {
+        nodes.push({
+          id: node.id || `api-node-${i}`,
+          entityId: eid,
+          type: ntype as GraphNode['type'],
+          label: label.split('.').pop() || label,
+          tag: ntype === 'cte' ? 'CTE' : ntype === 'subquery' ? 'SUBQ' : undefined,
+          x: 60, y: startY + tableCol * rowH,
+        });
+        tableCol++;
+      } else if (ntype === 'output_column') {
+        outputCols.push(label);
+        outputColEntities.push({ label, entityId: eid });
+      }
+    });
+
+    // ── CTE 层级布局 ──
+    // Build dependency graph: entityId → [dependent entityIds]
+    const deps: Record<string, string[]> = {};
+    apiEdges.forEach((edge) => {
+      const src = edge.source || '';
+      const tgt = edge.target || '';
+      if (src && tgt) {
+        deps[tgt] = deps[tgt] || [];
+        deps[tgt].push(src);
+      }
+    });
+    // BFS level assignment: physical tables = 0, CTE = max(source levels) + 1
+    const levels: Record<string, number> = {};
+    // Initialize physical tables
+    nodes.forEach(n => {
+      if (n.type === 'table') levels[n.entityId] = 0;
+    });
+    // Iterate until all CTE/subquery nodes get a level
+    let changed = true;
+    while (changed) {
+      changed = false;
+      nodes.forEach(n => {
+        if (n.type !== 'cte' && n.type !== 'subquery') return;
+        if (levels[n.entityId] !== undefined) return;
+        const srcs = deps[n.entityId] || [];
+        if (srcs.length === 0) {
+          levels[n.entityId] = 1;
+          changed = true;
+        } else {
+          const maxSrc = Math.max(...srcs.map(s => levels[s] ?? -1));
+          if (maxSrc >= 0) {
+            levels[n.entityId] = maxSrc + 1;
+            changed = true;
+          }
+        }
+      });
+    }
+    // Apply levels to positioning – 同层多节点按行号均匀分布，避免堆叠
+    const yGap = 56;
+    const levelRows: Record<number, number> = {};  // level → 当前行号
+    nodes.forEach(n => {
+      const lvl = levels[n.entityId] ?? 0;
+      n.x = baseX + lvl * levelGap;
+      const row = levelRows[lvl] || 0;
+      n.y = startY + row * yGap;
+      levelRows[lvl] = row + 1;
+    });
+    // Find max level for Query Result positioning
+    maxLevel = Math.max(0, ...Object.values(levels));
+    // Build mapping: output column entityId → source table entityIds (from edges)
+    colToTables = {};
+    // Collect all physical table entityIds for fallback
+    const physicalTableIds = new Set<string>();
+    apiNodes.forEach((node) => {
+      if (node.node_type === 'table' || node.type === 'table') {
+        physicalTableIds.add(node.entity_id || node.id || '');
+      }
+    });
+    apiEdges.forEach((edge, ei) => {
+      const src = edge.source || '';
+      const tgt = edge.target || '';
+      if (src && tgt) {
+        colToTables[tgt] = colToTables[tgt] || [];
+        // Check if the source directly references one of our physical tables
+        let matched = false;
+        for (const tid of physicalTableIds) {
+          if (src.includes(tid.split(':').pop() || '')) {
+            if (!colToTables[tgt].includes(tid)) colToTables[tgt].push(tid);
+            matched = true;
+          }
+        }
+        // Fallback: if source is a CTE column and no match, connect to all physical tables
+        if (!matched && src.includes(':cte.')) {
+          physicalTableIds.forEach(tid => {
+            if (!colToTables[tgt].includes(tid)) colToTables[tgt].push(tid);
+          });
+        }
+        edges.push({
+          id: edge.id || `api-edge-${ei}`,
+          source: src,
+          target: tgt,
+          type: normalizeEdgeType(edge.edge_type || edge.type),
+          mapping: edge.mapping || edge.id,
+        });
+      }
+    });
+  } else {
+    // Fallback: use tables_extracted
+    const tables = result.tables_extracted || [];
+    outputCols = result.columns_extracted || [];
+    tables.forEach((table, index) => {
+      nodes.push({ id: `api-table-${index}`, entityId: `table:${table}`, type: 'table', label: table.split('.').pop() || table, x: 60, y: startY + index * rowH });
+    });
+    tableCol = tables.length;
+    // Redirect existing edges or create table→result edges
+    tables.forEach((table, index) => {
+      edges.push({ id: `api-table-edge-${index}`, source: `table:${table}`, target: 'out:query_result', type: 'table' });
+    });
   }
+
+  // Ensure all table-type nodes have an edge to Query Result
+  const resultId = 'out:query_result';
+  const tableNodes = nodes.filter(n => n.type === 'table' || n.type === 'cte' || n.type === 'subquery');
+
+  // Add final Query Result node (positioned at max level + 1)
+  const shortCols = outputColEntities.map(c => c.label.includes('.') ? c.label.split('.').pop()! : c.label);
+  const resultLabel = shortCols.length > 0 ? `Query Result (${shortCols.length} cols)` : 'Query Result';
+  // Place Query Result at avg Y of all table/CTE/subquery nodes
+  const avgY = tableNodes.length > 0
+    ? tableNodes.reduce((sum, n) => sum + n.y, 0) / tableNodes.length
+    : startY;
+  const resultX = baseX + (maxLevel + 1) * levelGap;
+  nodes.push({ id: 'api-query-result', entityId: 'out:query_result', type: 'output', label: resultLabel, tag: 'OUT', x: resultX, y: avgY });
+
+  tableNodes.forEach(tn => {
+    if (!edges.some(e => e.source === tn.entityId && e.target === resultId)) {
+      edges.push({ id: `edge-${tn.entityId}-result`, source: tn.entityId, target: resultId, type: 'table' });
+    }
+  });
+
   const searchItems: SearchItem[] = [
-    ...columns.map((column, index) => ({ itemId: `api-column-${index}`, entityId: `out:${column}`, displayName: column, type: 'output' as const, sub: 'backend column', reason: 'sql analyze', confidence: 'high' as const })),
-    ...tables.map((table, index) => ({ itemId: `api-table-${index}`, entityId: `table:${table}`, displayName: table, type: 'source' as const, sub: 'backend table', reason: 'sql analyze', confidence: 'high' as const })),
+    { itemId: 'search-query-result', entityId: resultId, displayName: resultLabel, type: 'output', sub: `${tableNodes.length} tables · ${outputColEntities.length} cols`, reason: 'sql analyze', confidence: result.status === 'partial' ? 'medium' : 'high' },
+    ...outputColEntities.map((col, i) => {
+      const tables = colToTables[col.entityId];
+      const hasSource = tables && tables.length > 0;
+      return {
+        itemId: `search-out-${i}`,
+        entityId: col.entityId,
+        displayName: col.label,
+        type: 'output' as const,
+        sub: hasSource ? `from: ${tables.join(', ')}` : 'unknown source',
+        reason: hasSource ? `→ ${tables.join(', ')}` : '无法确认字段来源',
+        confidence: hasSource ? ('high' as const) : ('low' as const),
+        warning: !hasSource,
+      };
+    }),
+    ...tableNodes.map(tn => ({ itemId: `search-${tn.entityId}`, entityId: tn.entityId, displayName: tn.label, type: 'source' as const, sub: tn.type, reason: 'backend', confidence: 'high' as const })),
   ];
-  return { graph: { nodes, edges }, searchItems };
+
+  return { graph: { nodes, edges }, searchItems, colToTables };
 }
 
 function normalizeNodeType(type?: string): GraphNode['type'] {
@@ -140,10 +271,39 @@ function tagForNodeType(type?: string) {
 
 export default function App() {
   const [sql, setSqlValue] = useState(exampleSql);
-  const [dialect, setDialect] = useState('Hive');
+  const [dialect, setDialect] = useState('spark');
   const [activeNav, setActiveNav] = useState('workbench');
   const [state, setState] = useState<WorkbenchState>(initialState);
   const [metadataOpen, setMetadataOpen] = useState(false);
+
+  // ── Bidirectional linking: Monaco ↔ Canvas ──
+  const editorRef = useRef<monacoEditor.IStandaloneCodeEditor | null>(null);
+
+  /** Called by SqlEditorPanel when Monaco editor mounts */
+  const handleEditorMounted = useCallback((editor: monacoEditor.IStandaloneCodeEditor) => {
+    editorRef.current = editor;
+  }, []);
+
+  /** Called by LineageCanvas (double-click node) or DetailPanel (Locate SQL button) */
+  const handleRevealInEditor = useCallback((entityId: string) => {
+    revealInEditor(editorRef.current, entityId, state.sourceLocations, (id) => {
+      // Graceful degradation: no SourceLocation found
+      setState((s) => ({
+        ...s,
+        backendMessage: `No source location available for entity ${id}. Use the graph view to explore lineage.`,
+      }));
+    });
+  }, [state.sourceLocations]);
+
+  /** Called by SqlEditorPanel when cursor position matches a source location */
+  const handleCursorEntityChange = useCallback((entityId: string | null) => {
+    if (!entityId) return;
+    setState((s) => {
+      // Don't override if user explicitly selected something different
+      if (s.selectedEntity === entityId) return s;
+      return { ...s, selectedEntity: entityId };
+    });
+  }, []);
 
   const refreshMetadataLabel = useCallback(async () => {
     try {
@@ -186,7 +346,7 @@ export default function App() {
     setState((s) => ({ ...s, pageMode: 'analyzing', analysisStatus: 'running', trustStatus: 'untrusted' }));
     try {
       const result = await analyzeSql(sql, dialect);
-      const { graph, searchItems } = analysisToGraph(result);
+      const { graph, searchItems, colToTables } = analysisToGraph(result);
       const diagnostics = (result.diagnostics_report?.diagnostics || []).map(normalizeDiagnostic);
       setState((s) => {
         const failed = result.status === 'failed';
@@ -200,13 +360,14 @@ export default function App() {
           selectedOutput: null,
           selectedEntity: 'out:group',
           selectedMapping: null,
-          drawerOpen: failed || partial || diagnostics.length > 0 ? true : s.drawerOpen,
-          drawerTab: failed || partial || diagnostics.length > 0 ? 'diagnostics' : s.drawerTab,
+          drawerOpen: s.drawerOpen,
+          drawerTab: s.drawerTab,
           renderMode: t.mode,
           lastTransition: t.description,
           backendGraph: graph,
           backendSearchItems: searchItems,
           backendDiagnostics: diagnostics,
+          colToTables: colToTables,
           backendMessage: `${result.analysis_id} · ${result.summary?.table_count ?? graph.nodes.length} nodes from backend`,
           positions: Object.fromEntries(graph.nodes.map((node) => [node.id, { x: node.x, y: node.y }])),
         };
@@ -215,19 +376,34 @@ export default function App() {
       const message = err instanceof Error ? err.message : 'Analyze request failed';
       setState((s) => {
         const t = transitionRenderMode(s.renderMode, 'ANALYZE_FAILED');
-        return { ...s, pageMode: 'failed', analysisStatus: 'failed', trustStatus: 'untrusted', drawerOpen: true, drawerTab: 'diagnostics', renderMode: t.mode, lastTransition: t.description, backendMessage: message, backendDiagnostics: [{ id: 'frontend-api-error', code: 'FRONTEND_API_ERROR', entityId: 'out:group', severity: 'error', reason: message, impact: 'The UI could not call /api/sql/analyze.', action: 'Start the backend service or inspect the API response.' }] };
+        return { ...s, pageMode: 'failed', analysisStatus: 'failed', trustStatus: 'untrusted', drawerOpen: s.drawerOpen, drawerTab: s.drawerTab, renderMode: t.mode, lastTransition: t.description, backendMessage: message, backendDiagnostics: [{ id: 'frontend-api-error', code: 'FRONTEND_API_ERROR', entityId: 'out:group', severity: 'error', reason: message, impact: 'The UI could not call /api/sql/analyze.', action: 'Start the backend service or inspect the API response.' }] };
       });
     }
   };
 
   const onSelectResult = (item: SearchItem) => {
     setState((s) => {
+      // In table view, clicking an output column highlights its source table
+      let targetEntity = item.entityId;
+      if (item.type === 'output' && item.entityId !== 'out:query_result' && s.graphViewMode !== 'column') {
+        const ct = s.colToTables?.[item.entityId];
+        if (ct && ct.length > 0) {
+          // Find the first source table node in backendGraph
+          const graph = s.backendGraph;
+          if (graph) {
+            const tableNode = graph.nodes.find(n =>
+              n.type === 'table' && ct.some(t => n.entityId.includes(t))
+            );
+            if (tableNode) targetEntity = tableNode.entityId;
+          }
+        }
+      }
       const event = item.type === 'output' ? 'SELECT_OUTPUT_FIELD' : 'FOCUS_FIELD';
       const t = transitionRenderMode(s.renderMode, event);
       return {
         ...s,
         selectedOutput: item.type === 'output' ? item.entityId : s.selectedOutput,
-        selectedEntity: item.entityId,
+        selectedEntity: targetEntity,
         selectedMapping: null,
         detailMode: 'compact',
         detailTab: 'summary',
@@ -258,7 +434,7 @@ export default function App() {
             }
           } catch (err) {
             const message = err instanceof Error ? err.message : 'Format request failed';
-            setState((s) => ({ ...s, backendMessage: message, drawerOpen: true, drawerTab: 'diagnostics', backendDiagnostics: [{ id: 'format-api-error', code: 'FORMAT_API_ERROR', entityId: 'out:group', severity: 'error', reason: message, impact: 'The UI could not call /api/sql/format.', action: 'Start the backend service or inspect the format endpoint.' }] }));
+            setState((s) => ({ ...s, backendMessage: message, drawerOpen: s.drawerOpen, drawerTab: s.drawerTab, backendDiagnostics: [{ id: 'format-api-error', code: 'FORMAT_API_ERROR', entityId: 'out:group', severity: 'error', reason: message, impact: 'The UI could not call /api/sql/format.', action: 'Start the backend service or inspect the format endpoint.' }] }));
           }
         }}
         onLoadExample={() => {
@@ -270,15 +446,15 @@ export default function App() {
       />
       <div className="body">
         <LeftNav active={activeNav} onOpen={(tab) => { setActiveNav(tab); if (tab !== 'workbench') setState((s) => ({ ...s, drawerOpen: true, drawerTab: tab })); }} />
-        <main className="main">
+        <main className="app-main">
           <div className="workspace" id="workspace">
-            <SqlEditorPanel sql={sql} setSql={setSql} state={state} dialect={dialect} />
+            <SqlEditorPanel sql={sql} setSql={setSql} state={state} dialect={dialect} sourceLocations={state.sourceLocations} onEditorMounted={handleEditorMounted} onCursorEntityChange={handleCursorEntityChange} />
             <Splitter split={state.split} setSplit={setSplit} />
             <section className="canvas-panel">
               <SearchBar state={state} setState={setState} onSelectResult={onSelectResult} />
               <CanvasToolbar state={state} setState={setState} onTransition={onTransition} />
-              <LineageCanvas state={state} setState={setState} />
-              <DetailPanel state={state} setState={setState} />
+              <LineageCanvas state={state} setState={setState} onNodeDoubleClick={handleRevealInEditor} />
+              <DetailPanel state={state} setState={setState} onLocateSql={handleRevealInEditor} />
             </section>
           </div>
           <StatusStrip state={state} setState={setState} />

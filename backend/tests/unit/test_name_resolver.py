@@ -39,7 +39,7 @@ def test_name_resolver_resolves_qualified_columns(repo):
     result, diagnostics = NameResolver(MetadataService(repo)).resolve(model, metadata_version="v1")
     assert diagnostics == []
     assert len(result.resolved_columns) == 2
-    assert result.resolved_columns[0].column_entity_id == "column:default.default.order_table.order_no"
+    assert result.resolved_columns[0].column_entity_id == "column:default.order_table.order_no"
 
 
 def test_name_resolver_unknown_table_is_error(repo):

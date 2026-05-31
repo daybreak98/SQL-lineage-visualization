@@ -1,0 +1,22 @@
+C:\Users\Administrator\AppData\Local\Programs\Python\Python311\Lib\site-packages\pydantic\_internal\_fields.py:172: UserWarning: Field name "schema" in "MetadataObjectRef" shadows an attribute in parent "StrictBaseModel"
+  warnings.warn(
+C:\Users\Administrator\AppData\Local\Programs\Python\Python311\Lib\site-packages\pydantic\_internal\_fields.py:172: UserWarning: Field name "schema" in "MetadataTableInput" shadows an attribute in parent "StrictBaseModel"
+  warnings.warn(
+C:\Users\Administrator\AppData\Local\Programs\Python\Python311\Lib\site-packages\pydantic\_internal\_fields.py:172: UserWarning: Field name "schema" in "ResolvedTable" shadows an attribute in parent "StrictBaseModel"
+  warnings.warn(
+C:\Users\Administrator\AppData\Local\Programs\Python\Python311\Lib\site-packages\pydantic\_internal\_fields.py:172: UserWarning: Field name "schema" in "MissingTable" shadows an attribute in parent "StrictBaseModel"
+  warnings.warn(
+C:\Users\Administrator\AppData\Local\Programs\Python\Python311\Lib\site-packages\pydantic\_internal\_fields.py:172: UserWarning: Field name "schema" in "ColumnReference" shadows an attribute in parent "StrictBaseModel"
+  warnings.warn(
+C:\Users\Administrator\AppData\Local\Programs\Python\Python311\Lib\site-packages\pydantic\_internal\_fields.py:172: UserWarning: Field name "schema" in "ScopeRelation" shadows an attribute in parent "StrictBaseModel"
+  warnings.warn(
+C:\Users\Administrator\AppData\Local\Programs\Python\Python311\Lib\site-packages\pydantic\_internal\_fields.py:172: UserWarning: Field name "schema" in "ResolvedRelation" shadows an attribute in parent "StrictBaseModel"
+  warnings.warn(
+C:\Users\Administrator\AppData\Local\Programs\Python\Python311\Lib\site-packages\pydantic\_internal\_fields.py:172: UserWarning: Field name "schema" in "ResolvedColumnRef" shadows an attribute in parent "StrictBaseModel"
+  warnings.warn(
+INFO:     Started server process [22512]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8000): 通常每个套接字地址(协议/网络地址/端口)只允许使用一次。
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.

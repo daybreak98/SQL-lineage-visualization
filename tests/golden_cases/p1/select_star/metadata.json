@@ -1,0 +1,69 @@
+{
+  "test_case_id": "GC-P1-007",
+  "test_case_name": "select_star",
+  "category": "P1",
+  "description": "SELECT * 元数据驱动展开 - 验证 select * 展开为全部 5 个字段",
+  "expected_status": "success",
+  "metadata_version": "p0-fixture-v1",
+  "expected": {
+    "metadata_context": {
+      "resolved_tables": [
+        {
+          "entity_id": "table:default.default.order_table",
+          "catalog": "default",
+          "schema": "default",
+          "table": "order_table",
+          "alias": null,
+          "columns": ["order_no", "user_id", "order_amt", "status", "dt"]
+        }
+      ],
+      "missing_tables": [],
+      "missing_columns": [],
+      "ambiguous_columns": []
+    },
+    "lineage_ir_nodes_contains": [
+      "table:default.default.order_table",
+      "column:default.default.order_table.order_no",
+      "column:default.default.order_table.user_id",
+      "column:default.default.order_table.order_amt",
+      "column:default.default.order_table.status",
+      "column:default.default.order_table.dt",
+      "output_column:scope:root:1:order_no",
+      "output_column:scope:root:2:user_id",
+      "output_column:scope:root:3:order_amt",
+      "output_column:scope:root:4:status",
+      "output_column:scope:root:5:dt"
+    ],
+    "lineage_ir_edges_contains": [
+      {
+        "edge_type": "projection",
+        "source": "column:default.default.order_table.order_no",
+        "target": "output_column:scope:root:1:order_no"
+      },
+      {
+        "edge_type": "projection",
+        "source": "column:default.default.order_table.user_id",
+        "target": "output_column:scope:root:2:user_id"
+      },
+      {
+        "edge_type": "projection",
+        "source": "column:default.default.order_table.order_amt",
+        "target": "output_column:scope:root:3:order_amt"
+      },
+      {
+        "edge_type": "projection",
+        "source": "column:default.default.order_table.status",
+        "target": "output_column:scope:root:4:status"
+      },
+      {
+        "edge_type": "projection",
+        "source": "column:default.default.order_table.dt",
+        "target": "output_column:scope:root:5:dt"
+      }
+    ],
+    "summary_table_count": 1,
+    "summary_source_column_count": 5,
+    "summary_output_column_count": 5,
+    "diagnostics_error_count": 0
+  }
+}

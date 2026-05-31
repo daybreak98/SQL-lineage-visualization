@@ -64,6 +64,8 @@ class LineageNodeType(str, Enum):
     statement = "statement"
     scope = "scope"
     table = "table"
+    cte = "cte"
+    subquery = "subquery"
     column = "column"
     output_column = "output_column"
     expression = "expression"
@@ -75,6 +77,8 @@ class LineageEdgeType(str, Enum):
     alias = "alias"
     expression = "expression"
     filter_condition = "filter_condition"
+    join_condition = "join_condition"
+    union_mapping = "union_mapping"
     unknown = "unknown"
 
 
@@ -88,6 +92,8 @@ class GraphViewMode(str, Enum):
 
 class GraphNodeType(str, Enum):
     table = "table"
+    cte = "cte"
+    subquery = "subquery"
     column = "column"
     output_column = "output_column"
     expression = "expression"
@@ -100,6 +106,8 @@ class GraphEdgeType(str, Enum):
     alias = "alias"
     expression = "expression"
     filter_condition = "filter_condition"
+    join_condition = "join_condition"
+    union_mapping = "union_mapping"
     unknown = "unknown"
 
 
@@ -129,6 +137,10 @@ class DiagnosticCode(str, Enum):
     METADATA_IMPORT_COMMIT_FAILED = "METADATA_IMPORT_COMMIT_FAILED"
     SOURCE_LOCATION_UNAVAILABLE = "SOURCE_LOCATION_UNAVAILABLE"
     NOT_SUPPORTED_IN_P0 = "NOT_SUPPORTED_IN_P0"
+    RECURSIVE_CTE_UNSUPPORTED = "RECURSIVE_CTE_UNSUPPORTED"
+    CORRELATED_SUBQUERY_UNSUPPORTED = "CORRELATED_SUBQUERY_UNSUPPORTED"
+    CTE_CHAIN_EXCEEDED = "CTE_CHAIN_EXCEEDED"
+    UNION_SCHEMA_MISMATCH = "UNION_SCHEMA_MISMATCH"
 
 
 class MetadataObjectRef(StrictBaseModel):
@@ -359,6 +371,7 @@ class SemanticsReport(StrictBaseModel):
     windows: list[dict[str, Any]] = Field(default_factory=list)
     dedup_logic: list[dict[str, Any]] = Field(default_factory=list)
     semantic_risks: list[dict[str, Any]] = Field(default_factory=list)
+    evidence_refs: list[str] = Field(default_factory=list)
 
 
 class GraphPosition(StrictBaseModel):
@@ -473,3 +486,45 @@ class ParseResult:
         self.normalized_sql = normalized_sql
         self.error = error
         self.error_code = error_code
+
+
+# ---------------------------------------------------------------------------
+# Editor API 模型（M21 Completion + Hover）
+# ---------------------------------------------------------------------------
+
+class CompletionRequest(StrictBaseModel):
+    sql: str = Field(min_length=0)
+    cursor_line: int = Field(ge=1)
+    cursor_col: int = Field(ge=1)
+    dialect: str = "spark"
+    metadata_version: str = "latest"
+
+
+class CompletionCandidate(StrictBaseModel):
+    text: str
+    type: str  # "table" | "column" | "keyword" | "function"
+    detail: str | None = None
+
+
+class CompletionResponse(StrictBaseModel):
+    candidates: list[CompletionCandidate] = Field(default_factory=list)
+
+
+class HoverRequest(StrictBaseModel):
+    sql: str = Field(min_length=0)
+    cursor_line: int = Field(ge=1)
+    cursor_col: int = Field(ge=1)
+    dialect: str = "spark"
+    metadata_version: str = "latest"
+
+
+class HoverInfo(StrictBaseModel):
+    text: str | None = None
+    type: str | None = None  # "table" | "column" | None
+    comment: str | None = None
+    data_type: str | None = None
+    source: str | None = None  # e.g. "catalog.schema.table"
+
+
+class HoverResponse(StrictBaseModel):
+    hover: HoverInfo | None = None

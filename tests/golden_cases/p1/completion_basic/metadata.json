@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "metadata_version": "completion-v1",
+  "case_sensitive": false,
+  "default_catalog": "default",
+  "default_schema": "default",
+  "source_name": "completion-test",
+  "tables": [
+    {
+      "catalog": "default",
+      "schema": "default",
+      "name": "users",
+      "comment": "用户表",
+      "table_type": "table",
+      "columns": [
+        {"name": "id", "data_type": "bigint", "comment": "用户ID", "ordinal": 1},
+        {"name": "name", "data_type": "string", "comment": "用户名", "ordinal": 2},
+        {"name": "email", "data_type": "string", "comment": "邮箱", "ordinal": 3}
+      ]
+    },
+    {
+      "catalog": "default",
+      "schema": "default",
+      "name": "orders",
+      "comment": "订单表",
+      "table_type": "table",
+      "columns": [
+        {"name": "order_id", "data_type": "bigint", "comment": "订单ID", "ordinal": 1},
+        {"name": "user_id", "data_type": "bigint", "comment": "用户ID", "ordinal": 2},
+        {"name": "amount", "data_type": "decimal", "comment": "金额", "ordinal": 3}
+      ]
+    },
+    {
+      "catalog": "default",
+      "schema": "default",
+      "name": "products",
+      "comment": "产品表",
+      "table_type": "table",
+      "columns": [
+        {"name": "product_id", "data_type": "bigint", "comment": "产品ID", "ordinal": 1},
+        {"name": "product_name", "data_type": "string", "comment": "产品名", "ordinal": 2},
+        {"name": "price", "data_type": "decimal", "comment": "价格", "ordinal": 3}
+      ]
+    }
+  ]
+}

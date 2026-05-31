@@ -2,6 +2,7 @@ export type PageMode = 'empty' | 'ready' | 'analyzing' | 'analyzed' | 'dirty' | 
 export type AnalysisStatus = 'none' | 'running' | 'success' | 'partial' | 'failed';
 export type TrustStatus = 'trusted' | 'stale' | 'untrusted';
 export type GraphRenderMode = 'subquery_dependency' | 'current_field_path' | 'focus_field' | 'semantic_mode' | 'large_graph' | 'full_graph_preview';
+export type GraphViewMode = 'table' | 'column' | 'expression' | 'semantics' | 'diagnostics';
 export type DetailTab = 'summary' | 'mapping' | 'source' | 'diagnostics' | 'semantics';
 export type DetailMode = 'collapsed' | 'compact' | 'expanded';
 
@@ -197,6 +198,7 @@ export interface WorkbenchState {
   selectedEntity: string;
   selectedMapping: string | null;
   renderMode: GraphRenderMode;
+  graphViewMode: GraphViewMode;
   detailMode: DetailMode;
   detailTab: DetailTab;
   drawerOpen: boolean;
@@ -207,9 +209,11 @@ export interface WorkbenchState {
   large: boolean;
   lastTransition?: string;
   positions: Record<string, { x: number; y: number }>;
+  sourceLocations?: Record<string, SourceLocation>;
   backendGraph?: { nodes: GraphNode[]; edges: GraphEdge[] };
   backendSearchItems?: SearchItem[];
   backendDiagnostics?: Diagnostic[];
   backendMessage?: string;
   metadataLabel?: string;
+  colToTables?: Record<string, string[]>;
 }

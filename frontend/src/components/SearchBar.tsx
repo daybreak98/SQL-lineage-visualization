@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import type React from 'react';
 import { defaultOutputs, extraSearch } from '../data/mockLineage';
 import { buildPathContext } from '../data/selectors';
@@ -13,14 +14,35 @@ interface Props {
 export function SearchBar({ state, setState, onSelectResult }: Props) {
   const canSearch = state.pageMode === 'analyzed' && state.trustStatus === 'trusted';
   const q = state.query.trim().toLowerCase();
+  // fallback: use mock defaultOutputs/extraSearch when no backend search items available
   const defaultItems = state.backendSearchItems?.length ? state.backendSearchItems : defaultOutputs;
   const all = state.backendSearchItems?.length ? state.backendSearchItems : [...defaultOutputs, ...extraSearch];
   let items = q ? all.filter((x) => `${x.displayName} ${x.sub} ${x.reason}`.toLowerCase().includes(q)) : defaultItems;
   if (state.scope === 'output') items = defaultItems.filter((x) => !q || x.displayName.toLowerCase().includes(q));
   const pc = buildPathContext(state);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const searchbarRef = useRef<HTMLDivElement>(null);
+
+  // Click outside to close
+  useEffect(() => {
+    if (!searchOpen) return;
+    const handler = (e: MouseEvent) => {
+      if (searchbarRef.current && !searchbarRef.current.contains(e.target as Node)) {
+        setSearchOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [searchOpen]);
+
+  const handleSelect = (item: SearchItem) => {
+    setSearchOpen(false);
+    setState((s) => ({ ...s, query: '' }));
+    onSelectResult(item);
+  };
 
   return (
-    <div className="searchbar">
+    <div className="searchbar" ref={searchbarRef}>
       <div className="search-wrap">
         <span className="text-slate-400">⌕</span>
         <input
@@ -28,8 +50,8 @@ export function SearchBar({ state, setState, onSelectResult }: Props) {
           disabled={!canSearch}
           placeholder="Search field, table, alias..."
           value={state.query}
-          onFocus={() => canSearch && setState((s) => ({ ...s, drawerOpen: s.drawerOpen }))}
-          onChange={(event) => setState((s) => ({ ...s, query: event.target.value }))}
+          onFocus={() => { if (canSearch) { setSearchOpen(true); setState((s) => ({ ...s, drawerOpen: s.drawerOpen })); } }}
+          onChange={(event) => { setState((s) => ({ ...s, query: event.target.value })); if (canSearch) setSearchOpen(true); }}
         />
         {state.query && <button className="btn h-[22px] px-1.5" onClick={() => setState((s) => ({ ...s, query: '' }))}>Clear</button>}
       </div>
@@ -43,14 +65,14 @@ export function SearchBar({ state, setState, onSelectResult }: Props) {
       </button>
       <span className={cx('pill', state.trustStatus === 'trusted' ? 'trusted' : 'stale')}>{state.trustStatus === 'stale' ? 'stale' : `${items.length} results`}</span>
 
-      {canSearch && (
+      {canSearch && searchOpen && (
         <div className="popover open">
-          <div className="popover-head"><span>{state.backendSearchItems?.length ? (q ? 'Backend parse results' : 'Backend fields from analyze') : (q ? 'Mock search results' : 'Default mock outputs')}</span></div>
+          <div className="popover-head"><button className="btn h-[22px] px-1.5 text-[10px]" onClick={() => setSearchOpen(false)}>✕ Close</button><span>{state.backendSearchItems?.length ? (q ? 'Backend parse results' : 'Backend fields from analyze') : (q ? 'Mock search results' : 'Default mock outputs')}</span></div>
           <div>
             {items.length ? items.map((item) => (
-              <button key={item.itemId} className="result" onClick={() => onSelectResult(item)}>
+              <button key={item.itemId} className="result" onClick={() => handleSelect(item)}>
                 <span className="min-w-0"><span className="result-title">{item.warning && <span className="dot warn" />}{item.displayName}</span><span className="result-sub">{item.sub}</span></span>
-                <span className="reason">{item.reason}</span>
+                <span className="reason" style={item.warning ? { color: 'var(--red)' } : undefined}>{item.reason}</span>
               </button>
             )) : <div className="card">No matching field · current graph is preserved.</div>}
           </div>

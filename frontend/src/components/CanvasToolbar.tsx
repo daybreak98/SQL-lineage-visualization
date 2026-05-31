@@ -1,6 +1,6 @@
 import type React from 'react';
 import { buildPathContext } from '../data/selectors';
-import type { WorkbenchState } from '../types/lineage';
+import type { GraphViewMode, WorkbenchState } from '../types/lineage';
 import { cx } from '../utils/cx';
 
 interface Props {
@@ -8,6 +8,14 @@ interface Props {
   setState: React.Dispatch<React.SetStateAction<WorkbenchState>>;
   onTransition: (event: string) => void;
 }
+
+const VIEW_MODES: { mode: GraphViewMode; label: string; title: string }[] = [
+  { mode: 'table', label: 'Table', title: 'Table-level view: physical tables + Query Result' },
+  { mode: 'column', label: 'Column', title: 'Column-level view: expanded field nodes' },
+  { mode: 'expression', label: 'Expr', title: 'Expression view: highlight expression nodes and edges' },
+  { mode: 'semantics', label: 'Semantics', title: 'Semantics view: Filter/Join/Aggregate annotations' },
+  { mode: 'diagnostics', label: 'Diag', title: 'Diagnostics view: highlight diagnostic nodes' },
+];
 
 export function CanvasToolbar({ state, setState, onTransition }: Props) {
   const pc = buildPathContext(state);
@@ -28,6 +36,18 @@ export function CanvasToolbar({ state, setState, onTransition }: Props) {
         </div>
       </div>
       <div className="flex items-center gap-2">
+        <div className="view-toggle">
+          {VIEW_MODES.map(({ mode, label, title }) => (
+            <button
+              key={mode}
+              className={cx('view-btn', state.graphViewMode === mode && 'active')}
+              title={title}
+              onClick={() => setState((s) => ({ ...s, graphViewMode: mode }))}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
         <button className="tool-btn" onClick={() => onTransition('OPEN_FULL_PREVIEW')}>Full Preview</button>
         <button className="tool-btn" onClick={() => setState((s) => ({ ...s, detailMode: s.detailMode === 'collapsed' ? 'compact' : 'collapsed' }))}>{state.detailMode === 'collapsed' ? 'Show Detail' : 'Hide Detail'}</button>
       </div>

@@ -1,0 +1,39 @@
+{
+  "test_case_id": "GC-P1-001",
+  "test_case_name": "source_location_basic",
+  "category": "P1",
+  "description": "验证 SourceLocation 基础精准提取 - SELECT/FROM/WHERE/GROUP BY/ORDER BY 中的字段、表、别名坐标定位",
+  "expected_status": "success",
+  "metadata_version": "p0-fixture-v1",
+  "expected": {
+    "source_locations_not_empty": true,
+    "source_locations_contains_exact": true,
+    "source_locations_entity_types": ["table", "table_alias", "output_column", "column"],
+    "metadata_context": {
+      "resolved_tables": [
+        {
+          "entity_id": "table:default.order_table",
+          "catalog": "default",
+          "schema": "default",
+          "table": "order_table",
+          "alias": "o"
+        },
+        {
+          "entity_id": "table:default.user_table",
+          "catalog": "default",
+          "schema": "default",
+          "table": "user_table",
+          "alias": "u"
+        }
+      ],
+      "missing_tables": [],
+      "missing_columns": [],
+      "ambiguous_columns": []
+    },
+    "lineage_ir_nodes_contains": [
+      "table:default.order_table",
+      "table:default.user_table"
+    ],
+    "diagnostics_error_count": 0
+  }
+}

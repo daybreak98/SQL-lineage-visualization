@@ -1,0 +1,11 @@
+{
+  "expected_status": "partial",
+  "table_level_nodes_must_contain": [
+    "dwd_ord_htl_servicequality_di",
+    "mdw_order_v3_international"
+  ],
+  "table_level_nodes_must_not_contain": [
+    "a1", "a2", "aa"
+  ],
+  "description": "嵌套子查询中的物理表应在表级血缘中出现，子查询别名不应出现。不依赖元数据。"
+}

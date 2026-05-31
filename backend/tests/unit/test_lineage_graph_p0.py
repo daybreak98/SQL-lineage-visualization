@@ -38,10 +38,10 @@ def test_projection_lineage_graph_simple_select(repo):
     projections, lineage, graph, diagnostics = _pipeline(repo, "SELECT order_no FROM order_table")
     assert diagnostics == []
     assert projections.projections[0].output_name == "order_no"
-    assert any(n.id == "column:default.default.order_table.order_no" for n in lineage.nodes)
+    assert any(n.id == "column:default.order_table.order_no" for n in lineage.nodes)
     assert any(n.id.startswith("output_column:scope:root:1:order_no") for n in lineage.nodes)
     assert graph.nodes
-    assert graph.edges[0].source == "column:default.default.order_table.order_no"
+    assert graph.edges[0].source == "column:default.order_table.order_no"
 
 
 def test_alias_generates_alias_edge(repo):

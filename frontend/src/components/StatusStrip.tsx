@@ -25,6 +25,7 @@ export function StatusStrip({ state, setState }: Props) {
         <span>{state.analysisStatus}</span>
         <span>{state.trustStatus}</span>
         <span>render: {state.renderMode}</span>
+        <span>view: {state.graphViewMode}</span>
         <span className="truncate">output: <b>{state.selectedOutput ? entityName(state.selectedOutput) : 'none'}</b></span>
         <span className="truncate">selected: <b>{entityName(state.selectedEntity)}</b></span>
       </div>

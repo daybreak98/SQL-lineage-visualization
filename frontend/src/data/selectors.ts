@@ -3,14 +3,25 @@ import type { GraphEdge, GraphNode, GraphRenderMode, PathContext, WorkbenchState
 
 export function entityName(id?: string | null) {
   if (!id) return '-';
+  // fallback: use mock entities when backend doesn't provide entity metadata
   return entities[id]?.name ?? id;
 }
 
 export function entityOf(id?: string | null) {
+  // fallback: use mock entities when backend doesn't provide entity metadata
   return id ? entities[id] : undefined;
 }
 
 export function diagnosticsOf(entityId?: string | null) {
+  return entityId ? diagnostics.filter((d) => d.entityId === entityId) : [];
+}
+
+/** Get diagnostics for an entity, preferring backend data when available. */
+export function diagnosticsForEntity(state: WorkbenchState, entityId?: string | null) {
+  if (!entityId) return [];
+  const backendDiags = state.backendDiagnostics?.filter(d => d.entityId === entityId) ?? [];
+  if (backendDiags.length > 0) return backendDiags;
+  // fallback: use mock diagnostics when backend has none for this entity
   return entityId ? diagnostics.filter((d) => d.entityId === entityId) : [];
 }
 
@@ -22,11 +33,13 @@ export function buildPathContext(state: WorkbenchState): PathContext {
   if (state.trustStatus === 'stale') status = 'stale';
   if (state.analysisStatus === 'partial') status = 'partial';
   if (state.selectedOutput === 'out:avg_order_amount') status = 'low_confidence';
+  // fallback: use mock paths when backend doesn't provide path-level data
   const p = paths[state.selectedOutput] || [];
   return {
     status,
     display: entityName(state.selectedOutput),
     nodes: p.length,
+    // fallback: mock mappings count — backend doesn't yet expose EdgeMapping list
     mappings: mappings.length,
     warnings: state.backendDiagnostics?.length ?? diagnostics.length,
     confidence: state.selectedOutput === 'out:avg_order_amount' ? 'medium' : 'high',
@@ -44,6 +57,7 @@ export function deriveAttention(state: WorkbenchState): [string, string, string]
   return ['search_default_output', 'analyzed_no_field', 'path_context'];
 }
 
+/** Build mock field-level graph nodes for column/expression/diagnostics views. Used as fallback when no backend graph is available. */
 export function fieldNodes(state: WorkbenchState): GraphNode[] {
   const output = state.selectedOutput || 'out:order_cnt';
   const nodes: GraphNode[] = [
@@ -81,24 +95,118 @@ export function fieldEdges(state: WorkbenchState): GraphEdge[] {
   return edges;
 }
 
+/** View-mode highlight sets for visual treatment in LineageCanvas */
+export function viewHighlightSets(state: WorkbenchState): { highlightedEntityIds: Set<string>; highlightedEdgeIds: Set<string> } {
+  const gvm = state.graphViewMode ?? 'table';
+  const highlightedEntityIds = new Set<string>();
+  const highlightedEdgeIds = new Set<string>();
+
+  if (gvm === 'expression') {
+    // Highlight expression nodes and expression edges
+    const graph = visibleGraph(state);
+    for (const node of graph.nodes) {
+      if (node.type === 'expression') highlightedEntityIds.add(node.entityId);
+    }
+    for (const edge of graph.edges) {
+      if (edge.type === 'expr') highlightedEdgeIds.add(edge.id);
+    }
+  }
+
+  if (gvm === 'diagnostics') {
+    // Highlight nodes that have diagnostics
+    // fallback: use mock diagnostics when no backend diagnostics
+    const allDiagnostics = state.backendDiagnostics ?? diagnostics;
+    for (const d of allDiagnostics) {
+      highlightedEntityIds.add(d.entityId);
+    }
+  }
+
+  if (gvm === 'semantics') {
+    // Highlight nodes with semantic significance (JOIN edges, CTE with aggregation)
+    const graph = visibleGraph(state);
+    for (const edge of graph.edges) {
+      if (edge.type === 'join') highlightedEdgeIds.add(edge.id);
+    }
+    for (const node of graph.nodes) {
+      if (node.tag === 'CTE') highlightedEntityIds.add(node.entityId);
+    }
+  }
+
+  return { highlightedEntityIds, highlightedEdgeIds };
+}
+
 export function visibleGraph(state: WorkbenchState): { nodes: GraphNode[]; edges: GraphEdge[] } {
+  const gvm = state.graphViewMode ?? 'table';
+
+  // ═══ Table view: physical tables + output only ═══
+  if (gvm === 'table') {
+    // fallback: use mock subqueryNodes/subqueryEdges when no backend graph
+    const base = state.backendGraph ?? { nodes: subqueryNodes, edges: subqueryEdges };
+    const allowedTypes = new Set<GraphNode['type']>(['table', 'output']);
+    const filteredNodes = base.nodes.filter(n => allowedTypes.has(n.type));
+    const filteredIds = new Set(filteredNodes.map(n => n.entityId));
+    return {
+      nodes: filteredNodes,
+      edges: base.edges.filter(e => filteredIds.has(e.source) && filteredIds.has(e.target)),
+    };
+  }
+
+  // ═══ Semantics view: table-level with semantic annotations ═══
+  if (gvm === 'semantics') {
+    // fallback: use mock subqueryNodes/subqueryEdges when no backend graph
+    const base = state.backendGraph ?? { nodes: subqueryNodes, edges: subqueryEdges };
+    return base;
+  }
+
+  // ═══ Column / Expression / Diagnostics: use backend field-level data ═══
+  if (gvm === 'column' || gvm === 'expression' || gvm === 'diagnostics') {
+    if (state.backendGraph && state.backendGraph.nodes.length) {
+      return state.backendGraph;
+    }
+    return { nodes: fieldNodes(state), edges: fieldEdges(state) };
+  }
+
+  // ═══ Fallback: existing renderMode-based logic ═══
   if (state.backendGraph && (state.renderMode === 'subquery_dependency' || state.renderMode === 'large_graph' || state.renderMode === 'full_graph_preview')) {
     return state.backendGraph;
   }
+  // fallback: use mock subqueryNodes/subqueryEdges when no backend graph
   if (state.renderMode === 'subquery_dependency' || state.renderMode === 'large_graph') {
     return { nodes: subqueryNodes, edges: subqueryEdges };
   }
+  // fallback: merge mock subquery + field data for full preview when no backend graph
   if (state.renderMode === 'full_graph_preview') {
     return { nodes: [...subqueryNodes, ...fieldNodes(state)], edges: [...subqueryEdges, ...fieldEdges(state)] };
   }
+  // fallback: use mock field-level data when no backend graph
   return { nodes: fieldNodes(state), edges: fieldEdges(state) };
 }
 
 export function currentEntitySet(state: WorkbenchState) {
+  const gvm = state.graphViewMode ?? 'table';
+  if (gvm === 'table') {
+    // fallback: use mock subqueryNodes when no backend graph
+    const base = state.backendGraph ?? { nodes: subqueryNodes, edges: [] };
+    return new Set(base.nodes.filter(n => n.type === 'table' || n.type === 'output').map(n => n.entityId));
+  }
+  if (gvm === 'semantics') {
+    // fallback: use mock subqueryNodes when no backend graph
+    const base = state.backendGraph ?? { nodes: subqueryNodes, edges: [] };
+    return new Set(base.nodes.map(n => n.entityId));
+  }
+  if (gvm === 'column' || gvm === 'expression' || gvm === 'diagnostics') {
+    // Use real backend graph node entity IDs when available
+    if (state.backendGraph && state.backendGraph.nodes.length) {
+      return new Set(state.backendGraph.nodes.map(n => n.entityId));
+    }
+    return new Set(paths[state.selectedOutput || 'out:order_cnt'] || []);
+  }
   if (state.backendGraph && (state.renderMode === 'subquery_dependency' || state.renderMode === 'large_graph' || state.renderMode === 'full_graph_preview')) {
     return new Set(state.backendGraph.nodes.map((n) => n.entityId));
   }
+  // fallback: use mock subqueryNodes when no backend graph
   if (state.renderMode === 'subquery_dependency' || state.renderMode === 'large_graph') return new Set(subqueryNodes.map((n) => n.entityId));
+  // fallback: use mock paths when no backend graph and no specific render mode
   return new Set(paths[state.selectedOutput || 'out:order_cnt'] || []);
 }
 

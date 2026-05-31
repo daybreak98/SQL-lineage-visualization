@@ -17,13 +17,17 @@ class ProjectionExtractor:
         self,
         scope_model: ScopeModel,
         name_resolution: NameResolutionResult,
+        *,
+        expanded_select_items: list[ScopeSelectItem] | None = None,
     ) -> ProjectionModel:
         resolved_by_ref = self._resolved_lookup(name_resolution)
         unresolved_by_ref = self._unresolved_lookup(name_resolution)
         projections: list[ProjectionItem] = []
         unsupported: list[str] = []
 
-        for item in scope_model.select_items:
+        items = expanded_select_items if expanded_select_items is not None else scope_model.select_items
+
+        for item in items:
             output_entity_id = EntityIdFactory.output_column(
                 item.scope_id,
                 item.output_name,
@@ -37,6 +41,8 @@ class ProjectionExtractor:
                 source_refs.append(
                     ProjectionSourceRef(
                         raw=reference.raw,
+                        table=reference.table,
+                        column=reference.column,
                         column_entity_id=resolved,
                         unresolved_reason=unresolved_reason,
                     )

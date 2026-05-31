@@ -1,0 +1,20 @@
+C:\Users\Administrator\AppData\Local\Programs\Python\Python311\Lib\site-packages\pydantic\_internal\_fields.py:172: UserWarning: Field name "schema" in "MetadataObjectRef" shadows an attribute in parent "StrictBaseModel"
+  warnings.warn(
+C:\Users\Administrator\AppData\Local\Programs\Python\Python311\Lib\site-packages\pydantic\_internal\_fields.py:172: UserWarning: Field name "schema" in "MetadataTableInput" shadows an attribute in parent "StrictBaseModel"
+  warnings.warn(
+C:\Users\Administrator\AppData\Local\Programs\Python\Python311\Lib\site-packages\pydantic\_internal\_fields.py:172: UserWarning: Field name "schema" in "ResolvedTable" shadows an attribute in parent "StrictBaseModel"
+  warnings.warn(
+C:\Users\Administrator\AppData\Local\Programs\Python\Python311\Lib\site-packages\pydantic\_internal\_fields.py:172: UserWarning: Field name "schema" in "MissingTable" shadows an attribute in parent "StrictBaseModel"
+  warnings.warn(
+C:\Users\Administrator\AppData\Local\Programs\Python\Python311\Lib\site-packages\pydantic\_internal\_fields.py:172: UserWarning: Field name "schema" in "ColumnReference" shadows an attribute in parent "StrictBaseModel"
+  warnings.warn(
+C:\Users\Administrator\AppData\Local\Programs\Python\Python311\Lib\site-packages\pydantic\_internal\_fields.py:172: UserWarning: Field name "schema" in "ScopeRelation" shadows an attribute in parent "StrictBaseModel"
+  warnings.warn(
+C:\Users\Administrator\AppData\Local\Programs\Python\Python311\Lib\site-packages\pydantic\_internal\_fields.py:172: UserWarning: Field name "schema" in "ResolvedRelation" shadows an attribute in parent "StrictBaseModel"
+  warnings.warn(
+C:\Users\Administrator\AppData\Local\Programs\Python\Python311\Lib\site-packages\pydantic\_internal\_fields.py:172: UserWarning: Field name "schema" in "ResolvedColumnRef" shadows an attribute in parent "StrictBaseModel"
+  warnings.warn(
+INFO:     Started server process [15348]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8001 (Press CTRL+C to quit)

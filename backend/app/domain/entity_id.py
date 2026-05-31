@@ -33,20 +33,22 @@ class EntityIdFactory:
 
     @staticmethod
     def table(catalog: str, schema: str, table: str) -> str:
-        return "table:{catalog}.{schema}.{table}".format(
-            catalog=safe_segment(catalog),
-            schema=safe_segment(schema),
-            table=safe_segment(table),
-        )
+        cat = safe_segment(catalog)
+        sch = safe_segment(schema)
+        tbl = safe_segment(table)
+        if cat == "default" or not cat:
+            return f"table:{sch}.{tbl}"
+        return f"table:{cat}.{sch}.{tbl}"
 
     @staticmethod
     def column(catalog: str, schema: str, table: str, column: str) -> str:
-        return "column:{catalog}.{schema}.{table}.{column}".format(
-            catalog=safe_segment(catalog),
-            schema=safe_segment(schema),
-            table=safe_segment(table),
-            column=safe_segment(column),
-        )
+        cat = safe_segment(catalog)
+        sch = safe_segment(schema)
+        tbl = safe_segment(table)
+        col = safe_segment(column)
+        if cat == "default" or not cat:
+            return f"column:{sch}.{tbl}.{col}"
+        return f"column:{cat}.{sch}.{tbl}.{col}"
 
     @staticmethod
     def scope(scope_name: str = "root") -> str:

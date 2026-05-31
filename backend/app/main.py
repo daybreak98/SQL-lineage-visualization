@@ -7,6 +7,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.api.editor_controller import router as editor_router
 from app.api.health_controller import router as health_router
 from app.api.metadata_controller import router as metadata_router
 from app.api.sql_controller import router as sql_router
@@ -69,6 +70,7 @@ app.add_middleware(
 app.include_router(health_router, prefix="/api")
 app.include_router(metadata_router)
 app.include_router(sql_router)
+app.include_router(editor_router)
 
 
 if __name__ == "__main__":

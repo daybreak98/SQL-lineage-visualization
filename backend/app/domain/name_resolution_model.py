@@ -17,6 +17,7 @@ class ResolvedRelation(StrictBaseModel):
     table_entity_id: str
     table_row: dict
     columns: list[dict] = Field(default_factory=list)
+    is_cte: bool = False
 
 
 class ResolvedColumnRef(StrictBaseModel):

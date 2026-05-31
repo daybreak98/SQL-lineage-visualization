@@ -72,6 +72,8 @@ class GraphBuilder:
     def _node_type(node: LineageNode) -> GraphNodeType:
         mapping = {
             LineageNodeType.table: GraphNodeType.table,
+            LineageNodeType.cte: GraphNodeType.cte,
+            LineageNodeType.subquery: GraphNodeType.subquery,
             LineageNodeType.column: GraphNodeType.column,
             LineageNodeType.output_column: GraphNodeType.output_column,
             LineageNodeType.expression: GraphNodeType.expression,
@@ -86,6 +88,8 @@ class GraphBuilder:
             LineageEdgeType.alias: GraphEdgeType.alias,
             LineageEdgeType.expression: GraphEdgeType.expression,
             LineageEdgeType.filter_condition: GraphEdgeType.filter_condition,
+            LineageEdgeType.join_condition: GraphEdgeType.join_condition,
+            LineageEdgeType.union_mapping: GraphEdgeType.union_mapping,
             LineageEdgeType.unknown: GraphEdgeType.unknown,
         }
         return mapping.get(edge_type, GraphEdgeType.unknown)

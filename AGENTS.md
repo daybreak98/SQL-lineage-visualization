@@ -262,7 +262,39 @@
 
 ---
 
-## 九、每轮迭代归档报告
+## 九、后端血缘展示规范（表级/字段级/子查询级）
+
+### 9.1 分析链路分层原则
+
+底层分析链路始终按照**字段级/子查询级**设计：
+- `ScopeResolver` → 识别所有表引用（物理表 + CTE + 子查询），标记 `is_cte`
+- `NameResolver` → 对物理表查元数据消歧字段，CTE 跳过元数据查找
+- `LineageEngine` → 构建完整的字段级血缘 IR（所有节点和边）
+- `GraphBuilder` → 生成 GraphViewModel，包含全部节点类型
+
+**展示层裁剪（前端/GraphBuilder 负责）**：
+- 表级视图：只显示物理表 + 最终查询结果节点，CTE/子查询不展示
+- 字段级视图：显示所有节点（含 CTE/子查询/字段）
+- 子查询级视图：显示物理表 + CTE/子查询依赖链 + 最终查询结果
+
+### 9.2 表级血缘的硬规则
+
+1. **表级血缘不强制依赖元数据**：物理表从 SQL 解析中提取（ScopeResolver），即使元数据中找不到该表，也要在 lineage 中展示表节点
+2. **CTE/子查询不出现在表级视图**：`is_cte=True` 的表引用不出现在表级血缘节点中
+3. **最终查询结果节点**：所有物理表汇入一个"Query Result"汇总节点，代表最终 SELECT 产出
+4. **内部链路保持完整**：NameResolver/LineageEngine 内部仍然处理 CTE/子查询的字段消歧，只是 GraphBuilder 输出时裁剪
+
+### 9.3 后端开发注意事项
+
+- ❌ 不要在 `NameResolver` 中丢弃 CTE 信息——CTE 用于字段消歧
+- ❌ 不要因为元数据缺失就跳过物理表——物理表始终进入 lineage
+- ✅ `ScopeRelation.is_cte` 是区分物理表和 CTE 的唯一标识
+- ✅ `LineageEngine` 使用 `scope_model.relations`（非 `name_resolution.resolved_relations`）作为表级节点的数据源
+- ✅ 表级裁剪发生在 `LineageEngine.build()` 遍历 `scope_model.relations` 时，跳过 `is_cte=True`
+
+---
+
+## 十、每轮迭代归档报告
 
 每轮迭代结束必须输出：
 
@@ -299,7 +331,7 @@
 
 ---
 
-## 十、标准迭代流程
+## 十一、标准迭代流程
 
 每个功能点必须按照以下顺序执行：
 
@@ -368,7 +400,7 @@ project-orchestrator 归档本轮迭代
 
 ---
 
-## 十一、项目目录结构
+## 十二、项目目录结构
 
 ```text
 .

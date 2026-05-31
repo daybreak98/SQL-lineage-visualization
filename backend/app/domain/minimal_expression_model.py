@@ -11,6 +11,8 @@ from app.domain.contracts import StrictBaseModel
 
 class ProjectionSourceRef(StrictBaseModel):
     raw: str
+    table: str | None = None
+    column: str | None = None
     column_entity_id: str | None = None
     relation_id: str | None = None
     unresolved_reason: str | None = None
